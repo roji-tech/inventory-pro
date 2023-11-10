@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Button = ({ text = "Create New DP" }) => {
   return (
-    <Link href={"/dp/dashboard/create"}>
+    <Link href={"/dashboard/create"}>
       <BtnStyle>
         <p>{text}</p>
       </BtnStyle>

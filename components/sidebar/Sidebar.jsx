@@ -4,63 +4,118 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import useAuth from "@contexts/AuthContext";
 import useStore from "@contexts/StoreContext";
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
   const { token, logout, user } = useAuth();
+  const [current, setCurrent] = useState("");
   const { setIsOpen } = useStore();
   const router = useRouter();
 
   const navFunc = (to) => {
-    router.push(`/dp/dashboard/${to}`);
+    router.push(`/${to}`);
     setIsOpen(false);
     console.warn(to);
+    // alert(router.pathname);
   };
 
   const LINK_LIST = [
-    { name: "My Profile", link: "profile" },
-    { name: "Dashboard", link: "" },
-    { name: "All DP Banners", link: "all" },
-    { name: "Create New DP", link: "create" },
-    { name: "Join Our Community", link: "join" },
+    { name: "Overview", link: "", icon: "overview.svg" },
+    { name: "Products", link: "products", icon: "products.svg" },
+    { name: "Stocks", link: "stocks", icon: "stocks.svg" },
+    { name: "Orders", link: "orders", icon: "orders.svg" },
+    { name: "Analysis", link: "analysis", icon: "analysis.svg" },
+    { name: "Payments", link: "payments", icon: "payments.svg" },
+    { name: "Reports", link: "reports", icon: "reports.svg" },
+    { name: "Settings", link: "settings", icon: "settings.svg" },
+    // { name: "Log Out", link: "login", icon: "overview.svg" },
+    // { name: "Settings", link: "join", icon: "overview.svg" },
   ];
 
   return (
     <Container>
-      <header>
-        <div id="logo">
-          <Link href="/">
-            <Image src={"/branddeTrans.png"} width={150} height={50} alt="" />
-          </Link>
-        </div>
-        <hr className="hr" />
-      </header>
-      <div className="main">
-        {LINK_LIST.map((item) => (
-          <li
-            key={item.name}
-            onClick={() => navFunc(item.link)}
-            className="link"
-          >
-            {item.name}
-          </li>
-        ))}
+      <div className="main _auto_scroll_y">
+        <section>
+          {LINK_LIST.splice(0, 7).map((item) => (
+            <li
+              key={item.name}
+              onClick={() => navFunc(item.link)}
+              className={`link _flex ${
+                ((router.pathname == "/") &
+                  (item?.name?.toLowerCase() == "overview")) |
+                router.pathname.includes(item?.name.toLowerCase())
+                  ? "active"
+                  : ""
+              }`}
+            >
+              <img
+                src={
+                  ((router.pathname == "/") &
+                    (item?.name?.toLowerCase() == "overview")) |
+                  router.pathname.includes(item?.name.toLowerCase())
+                    ? `${item?.name.toLowerCase()}1.svg`
+                    : item?.icon
+                }
+                alt=""
+              />{" "}
+              <span>{item?.name}</span>
+            </li>
+          ))}
+        </section>
 
-        {/* SHOW IN SMALL */}
-        {/* {!token ? (
+        <hr style={{ width: "100%", height: "0.3px", background: "#6A6A6A" }} />
+
+        <section>
+          {[LINK_LIST.pop()].map((item) => (
+            <li
+              key={item.name}
+              onClick={() => navFunc(item.link)}
+              className={`link _flex ${
+                ((router.pathname == "/") &
+                  (item?.name?.toLowerCase() == "overview")) |
+                router.pathname.includes(item?.name.toLowerCase())
+                  ? "active"
+                  : ""
+              }`}
+            >
+              <img
+                src={
+                  ((router.pathname == "/") &
+                    (item?.name?.toLowerCase() == "overview")) |
+                  router.pathname.includes(item?.name.toLowerCase())
+                    ? `${item?.name.toLowerCase()}1.svg`
+                    : item?.icon
+                }
+                alt=""
+              />
+              <span>{item?.name}</span>
+            </li>
+          ))}
+
+          {/* SHOW IN SMALL */}
+          {/* {!token ? (
           <>
-            <li onClick={() => navFunc("/login")} className="link show-sm">
-              Login
-            </li>
-            <li onClick={() => navFunc("/register")} className="link show-sm">
-              Sign Up
-            </li>
+          <li onClick={() => navFunc("/login")} className="link show-sm">
+          Login
+          </li>
+          <li onClick={() => navFunc("/register")} className="link show-sm">
+          Sign Up
+          </li>
           </>
         ) : ( */}
-        <li id="logout">
-          <p onClick={logout}>Logout</p>
-        </li>
+          <li id="logout" onClick={logout} className="_flex">
+            <img src="/logout.svg" alt="" />
+            <p>Log out</p>
+          </li>
+        </section>
         {/* )} */}
         {/* SHOW IN SMALL */}
+        <div className="share_ur_thought">
+          <div>
+            <div className="triangle"></div>
+            <p>Share Your Thoughts</p>
+          </div>
+        </div>
       </div>
     </Container>
   );
@@ -78,19 +133,32 @@ const Container = styled.div`
       color: inherit;
     }
 
-    --pad-left: 12%;
+    --pad-left: 25%;
+    --link_height: 60px;
+    --links_gap: 20px;
 
-    background-color: var(--branddeBlue);
+    /* background-color: var(--branddeBlue); */
     min-height: 100%;
     width: 100%;
     max-height: 100%;
     display: flex;
-    padding-top: 30px !important;
     flex-direction: column;
     transition: all 0.3s linear;
     overflow: hidden auto;
     color: white;
-    filter: brightness(0.95);
+    padding-bottom: 20px;
+
+    @media screen and (max-width: 1000px) {
+      --pad-left: 20%;
+      --link_height: 60px;
+      --links_gap: 15px;
+    }
+
+    @media screen and (max-width: 600px) {
+      --links_gap: 12px;
+      /* --pad-left: 15%; */
+      --link_height: 40px;
+    }
 
     ::-webkit-scrollbar {
       width: 0;
@@ -103,29 +171,20 @@ const Container = styled.div`
       }
     }
 
-    > header {
-      display: flex;
-      flex-direction: column;
-
-      #logo {
-        padding: 5px 0;
-        padding-left: var(--pad-left);
-      }
-
-      .hr {
-        width: 100%;
-        background: var(--branddeLight);
-
-        height: 10px;
-      }
-    }
-
     > .main {
-      padding-top: 5px;
       width: 100%;
       display: flex;
       flex-direction: column;
+      gap: 6vh;
       list-style: none;
+
+      > section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--links_gap);
+        width: 100%;
+        padding-right: 25px;
+      }
 
       .link {
         position: relative;
@@ -133,71 +192,164 @@ const Container = styled.div`
         box-shadow: 0 0 1px 0px #00000020;
         color: #fff;
         cursor: pointer;
-        padding: 2px;
+        padding: 5px;
         padding-left: var(--pad-left);
-        font-size: 0.9em;
         width: 100%;
-        height: 40px;
+        height: 60px;
         display: flex;
         align-items: center;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
 
-        font-family: "DM Sans";
+        color: #6d6d6d;
+        font-family: Source Sans Pro;
+        font-size: 20px;
         font-style: normal;
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 21px;
-      }
+        font-weight: 600;
+        line-height: normal;
 
-      .active {
-        background: var(--branddeAlice);
-        color: var(--branddeBlue);
-      }
+        &::before {
+          content: "";
+          /* box-shadow: -2px 11px 9px -4px rgba(0, 0, 0, 0.25); */
+          position: absolute;
+          background: var(--blue_light);
+          inset: 0;
+          border-radius: 5px;
+          width: 0;
+          transition: all 0.3s ease-in;
+          z-index: 1;
+          opacity: 0.1;
+        }
 
-      .link::before {
-        content: "";
-        box-shadow: -2px 11px 9px -4px rgba(0, 0, 0, 0.25);
-        position: absolute;
-        background: var(--branddeAlice);
-        inset: 0;
-        border-radius: 5px;
-        width: 0;
-        transition: all 0.3s ease-in;
-        z-index: 1;
-        opacity: 0.2;
-      }
+        &:hover {
+          backdrop-filter: blur(1px);
 
-      .link:hover {
-        backdrop-filter: blur(3px);
-        ::before {
-          width: 100%;
+          ::before {
+            width: 100%;
+          }
+        }
+
+        &.active {
+          background: var(--blue_light);
+          color: var(--blue_color);
+
+          &::after {
+            content: "";
+            /* box-shadow: -2px 11px 9px -4px rgba(0, 0, 0, 0.25); */
+            position: absolute;
+
+            inset: 0;
+            top: 100%;
+
+            transition: all 0.3s ease-in;
+            /* transform: rotate(90deg); */
+            /* z-index: 0; */
+
+            width: 0;
+            height: 0;
+            /* border-left: 50px solid transparent; */
+            border-right: 75px solid transparent;
+            border-top: 60px solid var(--blue_light);
+          }
         }
       }
     }
 
     #logout {
-      margin-top: 5px;
-      color: var(--nav-cl);
       cursor: pointer;
-      padding: 2px 10px;
       text-align: center;
-      padding: 2px 15%;
-      /* padding-left: var(--pad-left); */
+      padding-left: var(--pad-left);
       position: relative;
-      min-height: 35px;
+
+      width: 100%;
+      height: 60px;
+      display: flex;
+      align-items: center;
+
+      transition: all 0.2s ease-in;
 
       background: transparent;
 
       p {
-        border-radius: 20px;
-        width: max-content;
-        padding: 9px 20px;
-        border: 2px solid #fff;
+        color: #d12a2a;
+        font-family: Source Sans Pro;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+      }
 
-        :hover {
-          box-shadow: -2px 11px 9px -4px rgba(0, 0, 0, 0.25);
-          border: 3px solid var(--branddeAlice);
+      &:hover {
+        box-shadow: -2px 11px 9px -4px rgba(0, 0, 0, 0.25);
+      }
+    }
+
+    .share_ur_thought {
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      padding-bottom: 20px;
+
+      > div {
+        background: var(--blue_light);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px;
+
+        width: 170px;
+        height: 124.977px;
+        flex-shrink: 0;
+
+        border-radius: 12px;
+        opacity: 0.9;
+
+        .triangle {
+          width: 0;
+          height: 0;
+          border-radius: 20px;
+          border-left: 55px solid transparent;
+          border-right: 55px solid transparent;
+          border-bottom: 60px solid rgba(105, 86, 229, 0.8);
+        }
+
+        p {
+          color: var(--purple);
+          font-family: Manrope;
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          background: #fff;
+          padding: 3px 10px;
+          text-align: center;
+          height: max-content;
         }
       }
     }
   }
 `;
+
+// function getImgBg(item) {
+//   const color = "#002CCA";
+
+//   fetch(item?.icon)
+//     .then((response) => response.text())
+//     .then((svgData) => {
+//       const svgContent =
+//         ((router.pathname == "/") &
+//           (item?.name?.toLowerCase() == "overview")) |
+//         router.pathname.includes(item?.name.toLowerCase())
+//           ? svgData.replace("{{color}}", color)
+//           : svgData;
+
+//       const encodedSVG = btoa(
+//         decodeURIComponent(encodeURIComponent(svgContent))
+//       );
+
+//       let dataURL = "data:image/svg+xml;base64," + encodedSVG;
+//       console.log(dataURL);
+//       return dataURL.toString();
+//     });
+// }

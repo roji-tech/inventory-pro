@@ -32,7 +32,7 @@ const Forgot = () => {
           </Button>
         </div>
         <p>
-          I know my password? <Link href="/dp/auth/login">Sign In</Link>
+          I know my password? <Link href="/login">Sign In</Link>
         </p>
       </form>
     </>

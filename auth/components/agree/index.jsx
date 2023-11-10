@@ -13,7 +13,7 @@ const index = () => {
           cursor: "pointer",
         }}
       >
-        I agree to the BRANDDE <Link href="/dp/auth/terms">Terms and Conditions</Link>
+        I agree to the BRANDDE <Link href="/terms">Terms and Conditions</Link>
       </label>
     </div>
   );

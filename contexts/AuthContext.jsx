@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
         Authorization: token,
       },
     };
-    router.push("/dp/auth/login")
+    router.push("/login")
 
     // await axiosInstance(config)
     //   .then((resp) => {
