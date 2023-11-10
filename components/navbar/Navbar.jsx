@@ -48,6 +48,7 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
         </div>
       </div>
 
+      <img className="search_icon" src="search.svg" alt="" />
       <div className="_flex searchDiv">
         <div className="_flex search">
           <img src="search.svg" alt="" />
@@ -153,6 +154,12 @@ const Container = styled.section`
       }
     }
 
+    .search_icon {
+      display: none;
+      width: 25px;
+      cursor: pointer;
+    }
+
     .searchDiv {
       display: flex;
       align-items: center;
@@ -168,6 +175,10 @@ const Container = styled.section`
 
         padding: 6px 12px;
         background: #f7f6f9;
+
+        img {
+          width: 25px
+        }
 
         &:focus {
           border: 2px solid var(--blue);
@@ -239,13 +250,27 @@ const Container = styled.section`
       }
     }
 
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 900px) {
       padding-left: 2% !important;
       padding-right: 2% !important;
+
+      .searchDiv {
+        min-width: 26%;
+
+        .search {
+          min-width: calc(100% - 90px);
+          gap: 10px;
+        }
+      }
     }
 
-    @media screen and (max-width: 500px) {
-      .hide-sm {
+    @media screen and (max-width: 600px) {
+      .search_icon {
+        display: block;
+      }
+
+      .searchDiv {
+        min-width: 36%;
         display: none;
       }
 

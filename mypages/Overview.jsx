@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
+import { DataGrid } from "@mui/x-data-grid";
+import { ordersData } from "./SECT4";
 
 const Overview = () => {
   const [active, setActive] = useState("Days");
@@ -15,6 +17,17 @@ const Overview = () => {
     { name: "Shoe Polish", percent: 21 },
     ,
     { name: "Paracetamol", percent: 19 },
+  ];
+
+  const rows = ordersData.slice(0, 25);
+
+  const columns = [
+    { field: "date", headerName: "Date", width: 100 },
+    { field: "product", headerName: "Product", width: 200 },
+    { field: "id", headerName: "ID Number", width: 100 },
+    { field: "price", headerName: "Price", width: 100 },
+    { field: "supply", headerName: "Availability", width: 100 },
+    { field: "status", headerName: "Status", width: 100 },
   ];
 
   return (
@@ -54,7 +67,7 @@ const Overview = () => {
         ))}
       </section>
 
-      <section className="sect3 _bg_white _flex _wrap _p10 _gap20">
+      <section className="sect3 _bg_white _flex _align_center _p10 _gap20">
         <div className="graph">
           <img src="/graph.svg" alt="" />
         </div>
@@ -83,7 +96,12 @@ const Overview = () => {
       <section className="sect4 _bg_white _flex_col _gap20">
         <h2 className="title">Recent Orders</h2>
         <div className="myList">
-          <header></header>
+          {/* <header></header>
+          <div></div> */}
+
+          <div className="_p10" style={{ height: 600, width: "100%" }}>
+            <DataGrid rows={rows} columns={columns} />
+          </div>
         </div>
       </section>
     </Styles>
@@ -98,6 +116,10 @@ const Styles = styled.div`
 
     * {
       box-sizing: border-box;
+      max-width: 100%;
+    }
+
+    @media screen and (max-width: 600px) {
     }
 
     .sect1 {
@@ -137,11 +159,21 @@ const Styles = styled.div`
         font-weight: 400;
         line-height: normal;
       }
+
+      @media screen and (max-width: 600px) {
+        justify-content: center;
+
+        .div1 {
+          width: 100%;
+        }
+        .div2 {
+        }
+      }
     }
 
     .sect2 {
       > div {
-        width: min(344px, 100%);
+        width: min(100%, 344px);
         height: 152px;
 
         border-radius: 14px;
@@ -150,6 +182,7 @@ const Styles = styled.div`
 
         .title {
           align-items: center;
+
           p {
             color: #525252;
             font-family: Source Sans Pro;
@@ -173,6 +206,14 @@ const Styles = styled.div`
           font-style: normal;
           font-weight: 700;
           line-height: normal;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        justify-content: center;
+
+        > div {
+          width: 100%;
         }
       }
     }
@@ -225,6 +266,7 @@ const Styles = styled.div`
         .view {
           display: flex;
           justify-content: end;
+          padding-top: 15px;
 
           > * {
             color: #d9830d;
@@ -234,6 +276,15 @@ const Styles = styled.div`
             font-weight: 400;
             line-height: 133%; /* 21.28px */
           }
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        justify-content: center;
+        flex-direction: column;
+
+        > div {
+          width: 100%;
         }
       }
     }
