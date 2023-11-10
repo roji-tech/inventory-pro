@@ -26,7 +26,7 @@ const GeneralLayout = ({ children }) => {
           <div className="navbar ">
             <Navbar isopen={isopen} setIsOpen={setIsOpen} hamRef={hamRef} />
           </div>
-          <div className="main_content _auto_scroll_y _border">{children}</div>
+          <div className="main_content _auto_scroll_y">{children}</div>
         </div>
       </div>
     </GeneralLayoutStyles>
