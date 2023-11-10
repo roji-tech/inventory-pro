@@ -60,7 +60,7 @@ const Overview = () => {
         </div>
         <div className="percents _flex_col_jcsb _p10">
           <div className="date">12 June- 21 June Order</div>
-          <div className="scales">
+          <div className="scales _flex_col _gap20">
             {SECT3.map((item) => (
               <div key={item?.name}>
                 <h3>{item?.name}</h3>
@@ -80,7 +80,7 @@ const Overview = () => {
         </div>
       </section>
 
-      <section className="sect4 _flex_col _gap20">
+      <section className="sect4 _bg_white _flex_col _gap20">
         <h2 className="title">Recent Orders</h2>
         <div className="myList">
           <header></header>
