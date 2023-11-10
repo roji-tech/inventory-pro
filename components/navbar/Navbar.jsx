@@ -63,7 +63,7 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
             <Link href={"/reports"}>
               {count > 0 && <div className="countBox">{count}</div>}
               <div id="notifImg">
-                <Image src={"/notif.png"} width={30} height={35} alt="" />
+                <Image src={"/notif.svg"} width={30} height={35} alt="" />
               </div>
             </Link>
           </li>

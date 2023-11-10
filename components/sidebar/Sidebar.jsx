@@ -151,7 +151,7 @@ const Container = styled.div`
     @media screen and (max-width: 1000px) {
       --pad-left: 20%;
       --link_height: 60px;
-      --links_gap: 15px;
+      --links_gap: 12px;
     }
 
     @media screen and (max-width: 600px) {
@@ -175,7 +175,7 @@ const Container = styled.div`
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 6vh;
+      gap: 3vh;
       list-style: none;
 
       > section {
@@ -195,7 +195,7 @@ const Container = styled.div`
         padding: 5px;
         padding-left: var(--pad-left);
         width: 100%;
-        height: 60px;
+        height: 55px;
         display: flex;
         align-items: center;
         border-top-right-radius: 8px;
@@ -235,14 +235,13 @@ const Container = styled.div`
 
           &::after {
             content: "";
-            /* box-shadow: -2px 11px 9px -4px rgba(0, 0, 0, 0.25); */
             position: absolute;
 
             inset: 0;
             top: 100%;
 
             transition: all 0.3s ease-in;
-            /* transform: rotate(90deg); */
+            transform: translate(-20%);
             /* z-index: 0; */
 
             width: 0;
