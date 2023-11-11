@@ -9,7 +9,7 @@ const MyDataGrid = ({
 }) => {
   return (
     <Container
-      className="_border _grid_center _p10 _auto_scroll_x"
+      className="_grid_center _p10 _auto_scroll_x"
       style={{
         height: height,
         width: width,
@@ -39,7 +39,6 @@ const MyDataGridStyles = styled(DataGrid)`
     } */
 
     .MuiDataGrid-virtualScroller {
-      border: 2px solid yellowgreen !important;
       overflow: auto;
 
       &::-webkit-scrollbar {
