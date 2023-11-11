@@ -206,8 +206,8 @@ const Styles = styled.div`
         }
       }
 
-      @media screen and (max-width: 600px) {
-        justify-content: center;
+      @media screen and (max-width: 790px) {
+        justify-content: space-evenly;
 
         > div {
           width: 100%;

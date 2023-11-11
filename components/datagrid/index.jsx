@@ -34,13 +34,11 @@ const Container = styled.div`
 
 const MyDataGridStyles = styled(DataGrid)`
   &&& {
-    /* * {
-      max-width: 100%;
-    } */
+    * {
+      box-sizing: border-box;
+    }
 
     .MuiDataGrid-virtualScroller {
-      overflow: auto;
-
       &::-webkit-scrollbar {
         background-color: var(--blue);
         width: 6px;
@@ -53,15 +51,37 @@ const MyDataGridStyles = styled(DataGrid)`
       &::-webkit-scrollbar-thumb:hover {
         background: var(--dark);
       }
+
+      .MuiDataGrid-virtualScrollerRenderZone {
+        .MuiDataGrid-row {
+          /* border: 5px solid pink; */
+          padding-left: 20px;
+          padding-right: 5px;
+
+          &:nth-child(even) {
+            background-color: #ffffff;
+          }
+
+          &:nth-child(odd) {
+            background: #f2f2f282;
+          }
+
+          .MuiDataGrid-cell {
+            /* border: 5px solid yellow; */
+
+            .MuiDataGrid-cellContent {
+              border-right: 15px solid transparent !important;
+            }
+          }
+        }
+      }
     }
 
-    .columnHeaders {
-      .MuiDataGrid-columnHeadersInner {
-        border: 2px solid red !important;
-        border: 6px solid red;
+    .MuiDataGrid-columnHeadersInner {
+      padding-left: 20px;
+      padding-right: 5px;
 
-        .css-yrdy0g-MuiDataGrid-columnHeaderRow {
-        }
+      .css-yrdy0g-MuiDataGrid-columnHeaderRow {
       }
     }
   }
