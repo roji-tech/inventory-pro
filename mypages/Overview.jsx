@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
-import { DataGrid } from "@mui/x-data-grid";
 import { ordersData } from "./SECT4";
+import MyDataGrid from "@components/datagrid";
 
 const Overview = () => {
   const [active, setActive] = useState("Days");
@@ -22,12 +22,12 @@ const Overview = () => {
   const rows = ordersData.slice(0, 25);
 
   const columns = [
-    { field: "date", headerName: "Date", width: 100 },
-    { field: "product", headerName: "Product", width: 200 },
-    { field: "id", headerName: "ID Number", width: 100 },
-    { field: "price", headerName: "Price", width: 100 },
-    { field: "supply", headerName: "Availability", width: 100 },
-    { field: "status", headerName: "Status", width: 100 },
+    { field: "date", headerName: "Date", width: 120 },
+    { field: "product", headerName: "Product", width: 120 },
+    { field: "id", headerName: "ID Number", width: 120 },
+    { field: "price", headerName: "Price", width: 120 },
+    { field: "supply", headerName: "Availability", width: 120 },
+    { field: "status", headerName: "Status", width: 120 },
   ];
 
   return (
@@ -98,10 +98,7 @@ const Overview = () => {
         <div className="myList">
           {/* <header></header>
           <div></div> */}
-
-          <div className="_p10" style={{ height: 600, width: "100%" }}>
-            <DataGrid rows={rows} columns={columns} />
-          </div>
+          <MyDataGrid height={500} rows={rows} columns={columns} />
         </div>
       </section>
     </Styles>

@@ -17,7 +17,6 @@
   /* line-height: 20px; */
 
   --white: #ffffff;
-  --white2: #ffffff9c;
 
   --new_bg: #eefcfd;
   --new_bg2: #fafef0;
@@ -30,10 +29,7 @@
 
   --p_vertic: 25px;
   --p_horizon: 8%;
-  --card_bg: #fff;
-  --card_color: var(--dark);
-  --color_black: rgba(48, 47, 47, 0.95);
-  --main_bg: var(--white);
+  --dark: #000000c0;
 
   --blue: #002cca;
   --blue_light: rgba(0, 44, 202, 0.1);
@@ -81,13 +77,13 @@ body::-webkit-scrollbar {
 
 /* Handle */
 body::-webkit-scrollbar-thumb {
-  background: var(--branddeLight);
+  background: #8bcaf7;
   /* color of the scrollbar handle */
 }
 
 /* Handle on hover */
 body::-webkit-scrollbar-thumb:hover {
-  background: var(--blue);
+  background: var(--dark);
   /* color of the scrollbar handle on hover */
 }
 
@@ -146,7 +142,7 @@ button {
 
 /* Handle */
 ._my_scroll_v::-webkit-scrollbar-thumb {
-  background: var(--darker-violet);
+  background: #8bcaf7;
   /* color of the scrollbar handle */
 }
 
@@ -177,7 +173,7 @@ button {
 
 /* Handle */
 ._my_auto_scroll_v::-webkit-scrollbar-thumb {
-  background: var(--darker-violet);
+  background: #8bcaf7;
   /* color of the scrollbar handle */
 }
 
@@ -1042,13 +1038,13 @@ button {
 
 /* Handle */
 ._auto_scroll_y::-webkit-scrollbar-thumb {
-  background: #dfebf6;
+  background: #8bcaf7;
   /* color of the scrollbar handle */
 }
 
 /* Handle on hover */
 ._auto_scroll_y::-webkit-scrollbar-thumb:hover {
-  background: var(--blue_color);
+  background: var(--dark);
   /* color of the scrollbar handle on hover */
 }
 
@@ -1066,7 +1062,7 @@ button {
 
 /* Handle */
 ._auto_scroll_x::-webkit-scrollbar-thumb {
-  background: var(--darker-violet);
+  background: #8bcaf7;
   /* color of the scrollbar handle */
 }
 
