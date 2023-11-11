@@ -22,12 +22,12 @@ const Overview = () => {
   const rows = ordersData.slice(0, 25);
 
   const columns = [
-    { field: "date", headerName: "Date", width: 120 },
-    { field: "product", headerName: "Product", width: 120 },
-    { field: "id", headerName: "ID Number", width: 120 },
-    { field: "price", headerName: "Price", width: 120 },
-    { field: "supply", headerName: "Availability", width: 120 },
-    { field: "status", headerName: "Status", width: 120 },
+    { field: "date", headerName: "Date", width: 150 },
+    { field: "product", headerName: "Product", width: 150 },
+    { field: "id", headerName: "ID Number", width: 150 },
+    { field: "price", headerName: "Price", width: 150 },
+    { field: "supply", headerName: "Availability", width: 150 },
+    { field: "status", headerName: "Status", width: 150 },
   ];
 
   return (

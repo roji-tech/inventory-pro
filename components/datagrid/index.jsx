@@ -43,7 +43,7 @@ const MyDataGridStyles = styled(DataGrid)`
 
       &::-webkit-scrollbar {
         background-color: var(--blue);
-        width: 8px;
+        width: 6px;
       }
 
       &::-webkit-scrollbar-thumb {

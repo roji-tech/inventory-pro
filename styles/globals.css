@@ -136,7 +136,7 @@ button {
 /* Track */
 ._my_scroll_v::-webkit-scrollbar {
   background-color: var(--esim-blue);
-  width: 8px;
+  width: 6px;
   /* width of the scrollbar */
 }
 
@@ -167,7 +167,7 @@ button {
 /* Track */
 ._my_auto_scroll_v::-webkit-scrollbar {
   background-color: var(--esim-blue);
-  width: 8px;
+  width: 6px;
   /* width of the scrollbar */
 }
 
@@ -1032,7 +1032,7 @@ button {
 /* Track */
 ._auto_scroll_y::-webkit-scrollbar {
   background-color: var(--blue);
-  width: 5px;
+  width: 6px;
   /* width of the scrollbar */
 }
 
@@ -1056,7 +1056,7 @@ button {
 /* Track */
 ._auto_scroll_x::-webkit-scrollbar {
   background-color: var(--esim-blue);
-  height: 7px;
+  height: 6px;
   /* width of the scrollbar */
 }
 
