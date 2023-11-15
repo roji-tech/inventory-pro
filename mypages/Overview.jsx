@@ -1,8 +1,10 @@
-import Link from "next/link";
 import { useState } from "react";
+import Link from "next/link";
 import styled from "styled-components";
 import { ordersData } from "./SECT4";
 import MyDataGrid from "@components/datagrid";
+import clsx from "clsx";
+import { renderProductCell } from "./renderProductCell";
 
 const Overview = () => {
   const [active, setActive] = useState("Days");
@@ -19,15 +21,61 @@ const Overview = () => {
     { name: "Paracetamol", percent: 19 },
   ];
 
-  const rows = ordersData.slice(0, 25);
+  const rows = ordersData.slice(0, 10);
 
   const columns = [
-    { field: "date", headerName: "Date", width: 150 },
-    { field: "product", headerName: "Product", width: 150 },
-    { field: "id", headerName: "ID Number", width: 150 },
-    { field: "price", headerName: "Price", width: 150 },
-    { field: "supply", headerName: "Availability", width: 150 },
-    { field: "status", headerName: "Status", width: 150 },
+    { field: "date", headerName: "Date", width: 100 },
+    {
+      field: "product",
+      headerName: "Product",
+      width: 250,
+      renderCell: renderProductCell,
+    },
+    {
+      field: "id",
+      headerName: "ID Number",
+      width: 120,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "price",
+      headerName: "Price",
+      headerAlign: "center",
+      align: "center",
+      width: 100,
+    },
+    {
+      field: "supply",
+      headerName: "Availability",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+      valueFormatter: (params) => {
+        if (!params.value) {
+          return "";
+        }
+        return `${params.value.toLocaleString()} in Stock`;
+      },
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 100,
+      headerAlign: "center",
+      align: "center",
+      cellClassName: (params) => {
+        if (params.value == null) {
+          return "";
+        }
+
+        return clsx("status", {
+          active: String(params.value).toLowerCase().includes("active"),
+          pending: String(params.value).toLowerCase().includes("pending"),
+          failed: String(params.value).toLowerCase().includes("failed"),
+        });
+      },
+    },
   ];
 
   return (
@@ -98,7 +146,61 @@ const Overview = () => {
         <div className="myList">
           {/* <header></header>
           <div></div> */}
-          <MyDataGrid height={500} rows={rows} columns={columns} />
+          <MyDataGrid
+            height={500}
+            rows={rows}
+            columns={columns}
+            customStyles={`
+              .status {                
+                .MuiDataGrid-cellContent {
+                  padding: 0px !important;
+                  border: 0  !important;
+                  border-radius: 8px;
+
+                  display: grid;
+                  place-items: center;
+                  
+                  text-align: center !important;
+                  text-transform: capitalize;
+
+                  height: 26px;
+                  width: 70px;
+
+                  font-family: Inter;
+                  font-size: 12px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: normal;
+                }
+              }
+
+              .status.active {                
+                .MuiDataGrid-cellContent {
+                  color: #519C66;
+                  background: rgba(50, 147, 111, 0.16);
+                }
+              }
+              
+              .status.pending {
+                .MuiDataGrid-cellContent {
+                  background: #fff2e2;
+                  color: #1C1D22;
+                }
+              }
+
+              .status.failed {
+                .MuiDataGrid-cellContent {
+                  background: #d474827a;
+                  color: #1C1D22;
+                }
+              }
+            `}
+            initialState={{
+              rows,
+              columns,
+              pagination: { paginationModel: { pageSize: 7 } },
+            }}
+          />
         </div>
       </section>
     </Styles>
@@ -129,7 +231,7 @@ const Styles = styled.div`
           place-items: center;
 
           color: #525252;
-          font-family: Source Sans Pro;
+          font-family: "Source Sans Pro";
           font-size: 16px;
           font-style: normal;
           font-weight: 400;
@@ -198,7 +300,7 @@ const Styles = styled.div`
 
         .amount {
           color: #3c3c3c;
-          font-family: Source Sans Pro;
+          font-family: "Source Sans Pro";
           font-size: 32px;
           font-style: normal;
           font-weight: 700;
@@ -226,7 +328,7 @@ const Styles = styled.div`
 
         .date {
           color: #111;
-          font-family: Source Sans Pro;
+          font-family: "Source Sans Pro";
           font-size: 20px;
           font-style: normal;
           font-weight: 600;
@@ -237,7 +339,7 @@ const Styles = styled.div`
           > div {
             h3 {
               color: #000;
-              font-family: Source Sans Pro;
+              font-family: "Source Sans Pro";
               font-size: 20px;
               font-style: normal;
               font-weight: 300;
@@ -267,7 +369,7 @@ const Styles = styled.div`
 
           > * {
             color: #d9830d;
-            font-family: Source Sans Pro;
+            font-family: "Source Sans Pro";
             font-size: 16px;
             font-style: normal;
             font-weight: 400;

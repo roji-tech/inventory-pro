@@ -202,7 +202,7 @@ const Container = styled.div`
         border-bottom-right-radius: 8px;
 
         color: #6d6d6d;
-        font-family: Source Sans Pro;
+        font-family: "Source Sans Pro";
         font-size: 20px;
         font-style: normal;
         font-weight: 600;
@@ -271,7 +271,7 @@ const Container = styled.div`
 
       p {
         color: #d12a2a;
-        font-family: Source Sans Pro;
+        font-family: "Source Sans Pro";
         font-size: 20px;
         font-style: normal;
         font-weight: 600;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -6,12 +6,20 @@ import { useRouter } from "next/router";
 import useAuth from "@contexts/AuthContext";
 import styled from "styled-components";
 import useAxios from "@hooks/useAxios";
+import useClickOutside from "@hooks/useClickOutside";
+import { useRef } from "react";
 
 const Navbar = ({ isopen, setIsOpen, hamRef }) => {
   const [count, setCount] = useState(15);
   const { token, logout, user, setUser } = useAuth();
+  const [myuser, setMyuser] = useState({});
   const router = useRouter();
   const axiosInstance = useAxios();
+  const [showNot, setShowNot] = useState(false);
+  const notsRef = useRef();
+  const notsRef2 = useRef();
+
+  useClickOutside(notsRef, notsRef2, () => setShowNot(false), showNot);
 
   // const logoutFunc = () => {
   //   logout();
@@ -30,21 +38,19 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
   //   }
   // };
 
-  // useEffect(() => {
-  //   if (router.pathname.startsWith("/dashboard/all")) {
-  //     setShowBtn(true);
-  //   }
-  // }, []);
+  useEffect(() => {
+    setMyuser(user);
+  }, [user]);
 
   return (
     <Container>
       <div className="profile _flex _gap20">
-        <div className="avatar_circle">
-          <img src={""} alt="" />
+        <div className="avatar_circle _grid_center">
+          <img src={"milo.svg"} alt="" />
         </div>
         <div className="title _flex_col_code">
-          <p>Ajibola-B.O</p>
-          <small>Marketer</small>
+          <p>{myuser?.name || "Ajibola-B.O"}</p>
+          <small>{myuser?.role || "Marketer"}</small>
         </div>
       </div>
 
@@ -59,15 +65,96 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
             name="search"
           />
         </div>
-        <div>
-          <li count={count > 0 ? count : ""} className="notify_icon">
-            <Link href={"/reports"}>
-              {count > 0 && <div className="countBox">{count}</div>}
-              <div id="notifImg">
-                <Image src={"/notif.svg"} width={30} height={35} alt="" />
-              </div>
-            </Link>
+        <div className="notificationsDiv">
+          <li
+            ref={notsRef2}
+            onClick={() => setShowNot(!showNot)}
+            count={count > 0 ? count : ""}
+            className="notify_icon"
+          >
+            {count > 0 && <div className="countBox">{count}</div>}
+            <div id="notifImg">
+              <Image src={"/notif.svg"} width={30} height={35} alt="" />
+            </div>
           </li>
+          <div
+            ref={notsRef}
+            className="notifications _auto_scroll_y"
+            style={{
+              transform: `translateX(${!showNot ? "150%" : "0"})`,
+              scale: `${!showNot ? "0" : "1"}`,
+              rotate: `${!showNot ? "-90deg" : "0deg"}`,
+            }}
+          >
+            <header className="_flex_jcsb _align_center">
+              <div className="_flex _align_center _gap20">
+                <p>Notifications</p>
+                <select name="notifications_filter" id="">
+                  <option value="all">All</option>
+                  <option value="lastMonth">Last Month</option>
+                  <option value="currentMonth">This Month</option>
+                </select>
+              </div>
+              <div className="_flex _align_center">
+                <p>Mark all as read</p>
+                <img src="/read.svg" alt="" />
+              </div>
+            </header>
+            <div className="items _flex_col">
+              <div className="item">
+                <img className="not_dot" src="/not_dot.svg" alt="" />
+                <div className="img">
+                  <img src="/paracetamol_pills.svg" alt="" />
+                </div>
+                <div className="content _flex_col _gap10">
+                  <div className="text _flex_col">
+                    <p>
+                      <b>Paracetamol</b> is running out of stock
+                    </p>
+                    <span>Do you want the system to Auto-Restock</span>
+
+                    <div className="btns _flex _gap10">
+                      <button className="accept" disabled="disabled">
+                        Accept
+                      </button>
+                      <button className="reject" disabled="disabled">
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                  <p className="date">Today at 9:42 AM</p>
+                </div>
+              </div>
+              <div className="item">
+                <img className="not_dot" src="/not_dot.svg" alt="" />
+                <div className="img">
+                  <img src="/not_img1.svg" alt="" />
+                </div>
+                <div className="content _flex_col _gap10">
+                  <div className="text _flex_col">
+                    <p>
+                      You Stocked <b>13,000 Pens</b>
+                    </p>
+                  </div>
+                  <p className="date">Yesterday at 11:42 PM</p>
+                </div>
+              </div>
+              <div className="item">
+                {/* <img className="not_dot" src="/not_dot.svg" alt="" /> */}
+                <div className="img">
+                  <img src="/paracetamol_pills.svg" alt="" />
+                </div>
+                <div className="content _flex_col _gap10">
+                  <div className="text _flex_col">
+                    <p>
+                      <b>Dennis NedryJust </b> joined as a staff
+                    </p>
+                  </div>
+                  <p className="date">Yesterday at 5:42 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -136,7 +223,7 @@ const Container = styled.section`
       .title {
         p {
           color: #262626;
-          font-family: Source Sans Pro;
+          font-family: "Source Sans Pro";
           font-size: 20px;
           font-style: normal;
           font-weight: 600;
@@ -145,7 +232,7 @@ const Container = styled.section`
 
         small {
           color: #686767;
-          font-family: Source Sans Pro;
+          font-family: "Source Sans Pro";
           font-size: 20px;
           font-style: normal;
           font-weight: 300;
@@ -177,7 +264,7 @@ const Container = styled.section`
         background: #f7f6f9;
 
         img {
-          width: 25px
+          width: 25px;
         }
 
         &:focus {
@@ -189,7 +276,7 @@ const Container = styled.section`
           width: 100%;
           height: 100%;
           color: #262626;
-          font-family: Source Sans Pro;
+          font-family: "Source Sans Pro";
           font-size: 20px;
           font-style: normal;
           font-weight: 600;
@@ -198,54 +285,204 @@ const Container = styled.section`
       }
     }
 
-    .notify_icon {
-      padding: 0 !important;
-      align-self: center;
-      justify-self: center;
-      border-radius: 10px;
+    .notificationsDiv {
       position: relative;
-      height: 100%;
-      transition: all 0.2s ease-in-out;
-      font-size: 10px;
+      z-index: 100;
 
-      #notifImg {
-        width: 30px;
-        height: 30px;
-        display: grid;
-        place-items: center;
+      .notify_icon {
+        padding: 0 !important;
+        align-self: center;
+        justify-self: center;
+        border-radius: 10px;
+        position: relative;
+        height: 100%;
+        transition: all 0.2s ease-in-out;
+        font-size: 10px;
 
-        img {
-          padding: 0;
-          margin: 0;
-          width: 25px;
-          height: 26px;
-          margin-bottom: -3px;
+        #notifImg {
+          width: 30px;
+          height: 30px;
+          display: grid;
+          place-items: center;
+
+          img {
+            padding: 0;
+            margin: 0;
+            width: 25px;
+            height: 26px;
+            margin-bottom: -3px;
+          }
         }
-      }
 
-      .countBox {
-        transition: all 0.3s ease-in-out;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        font-size: 0.6em;
-        background: rgba(211, 41, 41, 1);
-        color: #ffffff;
-        width: max-content;
-        height: 10px;
-        padding: 2px;
-        border-radius: 50%;
-        scale: 2;
-        top: 1px;
-        right: -1px;
-      }
-
-      :hover {
         .countBox {
-          scale: 2.5;
-          translate: -4px 6px;
-          transform: scale(1.2);
+          transition: all 0.3s ease-in-out;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          font-size: 0.6em;
+          background: rgba(211, 41, 41, 1);
+          color: #ffffff;
+          width: max-content;
+          height: 10px;
+          padding: 2px;
+          border-radius: 50%;
+          scale: 2;
+          top: 1px;
+          right: -1px;
+        }
+
+        :hover {
+          .countBox {
+            scale: 2.5;
+            translate: -4px 6px;
+            transform: scale(1.2);
+          }
+        }
+
+        & ~ .notifications {
+          transition: 0.2s all ease-in-out;
+          transform: translateX(150%);
+
+          background: #ffffff;
+          position: absolute;
+          /* min-w */
+          top: 80%;
+          right: 50%;
+          height: 420px;
+
+          min-width: 450px;
+          width: 450px;
+
+          border-radius: 4px;
+
+          box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.2);
+
+          font-family: "Source Sans Pro";
+          font-style: normal;
+
+          header {
+            color: #1a1f36;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+
+            padding: 14px 16px;
+            border-bottom: 1px solid #00000030;
+
+            select {
+              all: none;
+              background: transparent;
+              color: rgba(158, 160, 170, 1);
+
+              option {
+                color: rgba(158, 160, 170, 1);
+                background: transparent;
+              }
+            }
+          }
+
+          .items {
+            .item {
+              position: relative;
+              min-width: 100%;
+              max-width: 100%;
+              width: 100%;
+              padding: 16px;
+
+              display: grid;
+              grid-template-columns: 3fr 17fr;
+              height: fit-content;
+
+              .not_dot {
+                position: absolute;
+                top: 6px;
+                left: 6px;
+                width: 8px;
+                height: 8px;
+              }
+
+              .content {
+                .text {
+                  p {
+                    color: #1a1f36;
+                    font-family: "Source Sans Pro";
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 20px;
+
+                    color: #1a1f36;
+                    font-family: "Source Sans Pro";
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 20px;
+                  }
+
+                  span {
+                    color: #ff9400;
+                    font-family: "Source Sans Pro";
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 20px;
+                  }
+
+                  .accept {
+                    background: rgba(0, 44, 202, 1);
+                    border: 1px solid rgba(0, 44, 202, 1);
+                    padding: 1px 8px;
+                    border-radius: 6px;
+                    height: 26px;
+
+                    color: #fff;
+                    text-align: center;
+
+                    font-family: "Inter";
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 20px;
+
+                    display: grid;
+                    place-items: center;
+                  }
+                  .reject {
+                    border-radius: 6px;
+                    border: 1px solid rgba(60, 66, 87, 1);
+                    background: #ffffff;
+                    padding: 1px 8px;
+                    height: 26px;
+
+                    display: grid;
+                    place-items: center;
+
+                    color: #3c4257;
+                    text-align: center;
+
+                    font-family: Inter;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 20px;
+                  }
+                }
+
+                .date {
+                  color: var(--knock-gray-200, #a5acb8);
+                  padding-top: 15px;
+
+                  /* Regular/Small */
+                  font-family: "Inter";
+                  font-size: 14px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 20px;
+                }
+              }
+            }
+          }
         }
       }
     }

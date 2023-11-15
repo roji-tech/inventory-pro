@@ -31,7 +31,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>{this.props.styleTags}</Head>
-        <body className="backdrop_filter_blur">
+        <body>
           <div id="the_main_container">
             <Main />
             <NextScript />

@@ -16,6 +16,7 @@ const useLocalStore = (key, defaultValue) => {
     const dict = {
       ...value,
     };
+    // alert(JSON.stringify(dict));
     globalThis.localStorage?.setItem(key, JSON.stringify(dict));
   }, [key, value, jsonValue]);
 

@@ -8,8 +8,11 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const axiosInstance = useAxios();
-  const [token, setToken] = useAuthLocalStore("BRANDDE_AUTH_DATA");
-  const [user, setUser] = useLocalStore("BRANDDE_AUTH_DATA", null);
+  const [token, setToken] = useAuthLocalStore("INVENTORY_AUTH_DATA");
+  const [user, setUser] = useLocalStore("INVENTORY_AUTH_DATA", {
+    name: "Ajibola-B.O",
+    role: "Marketer",
+  });
   const router = useRouter();
 
   const fetchUser = async () => {
@@ -25,9 +28,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   fetchUser();
+  // }, []);
 
   const logout = async () => {
     const config = {
@@ -38,7 +41,7 @@ export const AuthProvider = ({ children }) => {
         Authorization: token,
       },
     };
-    router.push("/login")
+    router.push("/login");
 
     // await axiosInstance(config)
     //   .then((resp) => {
@@ -51,8 +54,6 @@ export const AuthProvider = ({ children }) => {
     //     globalThis.localStorage.removeItem("BRANDDE_AUTH_DATA");
     //     // navigate("/login");
     //   });
-    
-
   };
 
   const contextData = {
