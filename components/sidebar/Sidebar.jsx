@@ -1,22 +1,14 @@
-import Image from "next/image";
-import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import useAuth from "@contexts/AuthContext";
-import useStore from "@contexts/StoreContext";
-import { useEffect, useState } from "react";
 
 const Sidebar = () => {
-  const { token, logout, user } = useAuth();
-  const [current, setCurrent] = useState("");
-  const { setIsOpen } = useStore();
+  const { logout } = useAuth();
   const router = useRouter();
 
   const navFunc = (to) => {
     router.push(`/${to}`);
-    setIsOpen(false);
     console.warn(to);
-    // alert(router.pathname);
   };
 
   const LINK_LIST = [
@@ -137,7 +129,7 @@ const Container = styled.div`
     --link_height: 60px;
     --links_gap: 20px;
 
-    /* background-color: var(--branddeBlue); */
+    /* background-color: var(--INVBlue); */
     min-height: 100%;
     width: 100%;
     max-height: 100%;
@@ -202,7 +194,7 @@ const Container = styled.div`
         border-bottom-right-radius: 8px;
 
         color: #6d6d6d;
-        font-family: "Source Sans Pro";
+
         font-size: 20px;
         font-style: normal;
         font-weight: 600;
@@ -271,7 +263,7 @@ const Container = styled.div`
 
       p {
         color: #d12a2a;
-        font-family: "Source Sans Pro";
+
         font-size: 20px;
         font-style: normal;
         font-weight: 600;

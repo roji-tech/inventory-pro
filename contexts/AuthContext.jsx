@@ -1,67 +1,67 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
+import axios from "axios";
 import { useRouter } from "next/router";
-import useAuthLocalStore from "../hooks/useAuthLocalStore";
-import useLocalStore from "../hooks/useLocalStore";
-import useAxios from "../hooks/useAxios";
+import { initialState, authReducer, typ } from "@reducers/AuthReducer";
+import { api } from "@config";
 
-const AuthContext = createContext({});
+const AuthContext = createContext({
+  state: {
+    user: {},
+    access_token: "",
+    refresh_token: "",
+  },
+  dispatchFunc: () => null,
+  logout: () => null,
+  fetchUser: () => null,
+});
 
 export const AuthProvider = ({ children }) => {
-  const axiosInstance = useAxios();
-  const [token, setToken] = useAuthLocalStore("INVENTORY_AUTH_DATA");
-  const [user, setUser] = useLocalStore("INVENTORY_AUTH_DATA", {
-    name: "Ajibola-B.O",
-    role: "Marketer",
-  });
+  const [state, dispatch] = useReducer(authReducer, initialState);
   const router = useRouter();
 
+  const dispatchFunc = (type, payload = null) => dispatch({ type, payload });
+
   const fetchUser = async () => {
-    if (token) {
-      await axiosInstance
-        .get("/central/myusers/me/")
-        .then((resp) => {
-          console.log("FROM AUTHPROVIDER");
-          console.log(resp.data);
-          setUser(() => ({ ...resp.data }));
+    if (state?.access_token) {
+      await axios
+        .get(api.me, {
+          headers: {
+            Authorization: state?.access_token,
+            "Content-Type": "application/json",
+          },
         })
-        .catch((err) => console.log(`ERROR-- ${err?.response?.status}===`));
+        .then((resp) => {
+          dispatchFunc(typ.setUser, { user: resp.data });
+        })
+        .catch((err) =>
+          console.log(
+            `ERROR FROM AUTHPROVIDER FETCH USER-- ${err?.response?.status}===`
+          )
+        );
     }
   };
 
-  // useEffect(() => {
-  //   fetchUser();
-  // }, []);
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
-  const logout = async () => {
-    const config = {
-      method: "get",
-      maxBodyLength: Infinity,
-      url: "/central/token/logout/",
-      headers: {
-        Authorization: token,
-      },
-    };
-    router.push("/login");
+  const logout = (replace = true) => {
+    if (router.pathname.includes("[")) {
+      let route = router.pathname.split("[")[0];
+      dispatchFunc(typ.setPage, { page: route });
+    }
 
-    // await axiosInstance(config)
-    //   .then((resp) => {
-    //     setToken(null);
-    //     setUser(null);
-    //   })
-    //   .catch((e) => console.warn(e))
-    //   .finally(() => {
-    //     globalThis.localStorage.removeItem("BRANDDE_AUTH_DATA");
-    //     globalThis.localStorage.removeItem("BRANDDE_AUTH_DATA");
-    //     // navigate("/login");
-    //   });
+    dispatchFunc(typ.clearAll);
+    if (replace) {
+      router.replace("/login");
+    }
   };
 
   const contextData = {
-    setToken,
-    setUser,
-    user,
-    token,
+    state,
+    dispatchFunc,
     logout,
+    fetchUser,
   };
 
   return (

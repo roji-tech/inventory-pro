@@ -16,7 +16,7 @@ export const FooterImage = () => {
             <span> Make your</span> own Event
           </h2>
           <p>
-            Power Your Events with BRANDDE ......
+            Power Your Events with INV ......
             <br /> Connect the dot of your audience.
           </p>
           <div>
@@ -66,7 +66,6 @@ const Container = styled.section`
         gap: 20px;
 
         > h2 {
-          font-family: "DM Sans";
           font-style: normal;
           font-weight: 700;
           font-size: 34px;
@@ -74,7 +73,6 @@ const Container = styled.section`
         }
 
         > p {
-          font-family: "DM Sans";
           font-style: normal;
           font-weight: 400;
           font-size: 18px;

@@ -1,9 +1,9 @@
 import { AuthProvider } from "../contexts/AuthContext";
 import { StoreProvider } from "../contexts/StoreContext";
 import "../styles/globals.css";
-import { Source_Sans_Pro } from "@next/font/google";
+import { Source_Sans_3 } from "@next/font/google";
 
-const sans = Source_Sans_Pro({
+const sans = Source_Sans_3({
   subsets: ["latin"],
   weight: ["400", "600"],
   style: "normal",

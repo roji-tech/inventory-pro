@@ -30,7 +30,13 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
-        <Head>{this.props.styleTags}</Head>
+        <Head>
+          {this.props.styleTags}
+          <link
+            href="https://fonts.googleapis.com/css?family=Source Sans Pro"
+            rel="stylesheet"
+          ></link>
+        </Head>
         <body>
           <div id="the_main_container">
             <Main />

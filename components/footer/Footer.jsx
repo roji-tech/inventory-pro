@@ -11,7 +11,7 @@ const Footer = () => {
             <div className="item1">
               <img className="brand-logo" src="/Brandde-logo-2.png" alt="" />
               <p className="content">
-                Brandde is a global self-service ticketing platform for live
+                INV is a global self-service ticketing platform for live
                 experiences that allows anyone to create, share, find and attend
                 events that fuel their passions and enrich their lives.
               </p>
@@ -27,13 +27,13 @@ const Footer = () => {
                 <li className="list-items">Online RSVP</li>
                 <li className="list-items">Online Events</li>
                 <br /> 
-                <p className="titles">Brandde DP</p>
+                <p className="titles">INV DP</p>
 
                 <li className="list-items">Create DP</li>
                 <li className="list-items">USe DP</li>
               </div>
               <div className="items">
-                <h3 className="titles">Brandde</h3>
+                <h3 className="titles">INV</h3>
                 <li className="list-items">About us</li>
                 <li className="list-items">Press</li>
                 <li className="list-items">Contact Us</li>
@@ -55,7 +55,7 @@ const Footer = () => {
 
           <div className="copyright">
             <hr className="h-line" />
-            <p className="copy">Copyright © 2023 Brandde</p>
+            <p className="copy">Copyright © 2023 INV</p>
           </div>
         </div>
       </FooterStyle>

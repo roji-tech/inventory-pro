@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 
 const useAuthLocalStore = (key) => {
   // const [refreshToken, setRefreshToken] = useState(() =>
-  //   localStorage.getItem("BRANDDE_AUTH_DATA")
-  //     ? JSON.parse(localStorage.getItem("BRANDDE_AUTH_DATA"))
+  //   localStorage.getItem("INV_AUTH_DATA")
+  //     ? JSON.parse(localStorage.getItem("INV_AUTH_DATA"))
   //     : null
   // );
   const [value, setValue] = useState(() => {

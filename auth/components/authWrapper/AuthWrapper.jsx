@@ -15,7 +15,7 @@ const AuthWrapper = ({ element, text }) => {
           <div className="top">
             <Link href={"/"}>
               <Image
-                src="/Brandde logo blue 3.png"
+                src="/INV logo blue 3.png"
                 width={200}
                 height={50}
                 alt=""

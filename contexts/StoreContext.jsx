@@ -1,15 +1,19 @@
-import { createContext, useRef, useState, useContext } from "react";
+import { useLocalStore } from "@hooks/useLocalStore";
+import useSessionStore from "@hooks/useSessionStore";
+import axios from "axios";
+import { createContext, useContext, useState } from "react";
 
 const StoreContext = createContext({});
 
 export const StoreProvider = ({ children }) => {
-  const [isopen, setIsOpen] = useState(false);
-  const hamburgerRef = useRef();
+  const [esim, setEsim] = useSessionStore("CURRENT_PACKAGE");
+  const [showSearch, setShowSearch] = useState(false);
 
   const contextData = {
-    hamburgerRef,
-   isopen,
-    setIsOpen,
+    esim,
+    setEsim,
+    showSearch,
+    setShowSearch,
   };
 
   return (

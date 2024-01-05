@@ -24,6 +24,19 @@ const MyDataGrid = ({
         editMode="row"
         customStyles={customStyles}
         {...others}
+        //
+        density={"comfortable"}
+        columnHeaderHeight={70}
+
+        // isRowSelectable={(params) => params.row.quantity > 50000}
+        // checkboxSelection
+        // rowsPerPageOptions={[9]}
+        // pageSize={10}
+        // rowHeight={60}
+        // withBorderColor={false}
+        // paginationMode={}
+        // rowCount={5}
+
         // rowModesModel={rowModesModel}
         // onRowModesModelChange={handleRowModesModelChange}
         // onRowEditStop={handleRowEditStop}
@@ -52,21 +65,82 @@ const Container = styled.div`
 
 const MyDataGridStyles = styled(DataGrid)`
   &&& {
+    border-color: transparent !important;
+
     * {
       box-sizing: border-box;
     }
 
     /* .MuiTablePagination-root {
-      background: red;
       width: 100%;
       display: flex;
       justify-content: space-between;
-      
+
       > * {
         display: flex;
         justify-content: space-between;
       }
     } */
+
+    /* outline: 2px solid magenta !important; */
+
+    /* MuiDataGrid-root--densityStandard  */
+    /* MuiDataGrid-withBorderColor */
+    /* .MuiDataGrid-root {
+      border-color: transparent !important;
+      padding: 80px !important;
+      background: #7b4e4e !important;
+
+      &.MuiDataGrid-withBorderColor {
+        border: 8px solid #47d306 !important;
+        border-color: transparent !important;
+      }
+    } */
+
+    .Mui-checked {
+    }
+
+    /* MuiDataGrid-cellCheckbox */
+    .MuiCheckbox-root {
+      --w: 18px;
+
+      svg {
+        width: var(--w);
+        height: var(--w);
+        aspect-ratio: 1/1;
+        padding: 1px;
+
+        border: 1px solid #00000047;
+        border: 0.834053px solid #e7e5e5;
+        background: #ffffff;
+        border-radius: 3.33621px;
+
+        &[data-testid="CheckBoxOutlineBlankIcon"] {
+          * {
+            display: none;
+          }
+        }
+
+        &[data-testid="CheckBoxIcon"] {
+          outline: 1px solid blue;
+          border: 3px solid blue;
+        }
+      }
+    }
+
+    .MuiDataGrid-columnHeaders {
+      background: #fbfdfe;
+
+      .MuiDataGrid-columnHeaderTitle {
+        color: var(--Paragraph-color, rgba(1, 12, 21, 0.7)) !important;
+
+        /* H6 */
+        font-size: 12px !important;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 18px;
+      }
+    }
 
     .MuiDataGrid-virtualScroller {
       &::-webkit-scrollbar {
@@ -88,6 +162,7 @@ const MyDataGridStyles = styled(DataGrid)`
           /* border: 5px solid pink; */
           padding-left: 20px;
           padding-right: 5px;
+          /* border: 2px solid #000 !important; */
 
           &:nth-child(even) {
             background-color: #ffffff;

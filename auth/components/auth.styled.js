@@ -35,11 +35,9 @@ const AuthStyles = styled.section`
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        font-family: "Poppins";
         line-height: 20px;
 
         .cta {
-          font-family: "AvantGarde Bk BT";
           text-align: center;
           font-weight: 700;
           color: #000000;
@@ -56,7 +54,6 @@ const AuthStyles = styled.section`
       }
 
       .box {
-        font-family: "Poppins";
         font-weight: 275;
         font-size: 15px;
       }

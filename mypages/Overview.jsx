@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { ordersData } from "./SECT4";
 import MyDataGrid from "@components/datagrid";
 import clsx from "clsx";
-import { renderProductCell } from "./renderProductCell";
+import { renderProductCell } from "./renderCell";
 
 const Overview = () => {
   const [active, setActive] = useState("Days");
@@ -166,7 +166,6 @@ const Overview = () => {
                   height: 26px;
                   width: 70px;
 
-                  font-family: Inter;
                   font-size: 12px;
                   font-style: normal;
                   font-weight: 400;
@@ -231,7 +230,7 @@ const Styles = styled.div`
           place-items: center;
 
           color: #525252;
-          font-family: "Source Sans Pro";
+          
           font-size: 16px;
           font-style: normal;
           font-weight: 400;
@@ -252,7 +251,6 @@ const Styles = styled.div`
         border: 0.4px solid #9b9b9b;
 
         color: rgba(79, 79, 79, 0.92);
-        font-family: Inter;
         font-size: 14px;
         font-style: normal;
         font-weight: 400;
@@ -300,7 +298,7 @@ const Styles = styled.div`
 
         .amount {
           color: #3c3c3c;
-          font-family: "Source Sans Pro";
+          
           font-size: 32px;
           font-style: normal;
           font-weight: 700;
@@ -328,7 +326,7 @@ const Styles = styled.div`
 
         .date {
           color: #111;
-          font-family: "Source Sans Pro";
+          
           font-size: 20px;
           font-style: normal;
           font-weight: 600;
@@ -339,7 +337,7 @@ const Styles = styled.div`
           > div {
             h3 {
               color: #000;
-              font-family: "Source Sans Pro";
+              
               font-size: 20px;
               font-style: normal;
               font-weight: 300;
@@ -352,7 +350,7 @@ const Styles = styled.div`
                 text-align: center;
 
                 /* Medium / Small */
-                font-family: Inter;
+      
                 font-size: 14px;
                 font-style: normal;
                 font-weight: 500;
@@ -369,7 +367,7 @@ const Styles = styled.div`
 
           > * {
             color: #d9830d;
-            font-family: "Source Sans Pro";
+            
             font-size: 16px;
             font-style: normal;
             font-weight: 400;
@@ -393,7 +391,6 @@ const Styles = styled.div`
 
       > .title {
         color: #000;
-        font-family: Inter;
         font-size: 24px;
         font-style: normal;
         font-weight: 500;

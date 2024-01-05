@@ -14,7 +14,6 @@ const useClickOutside = (ref, ref2, callback, dependency) => {
     ) {
       return null;
     } else {
-      // alert("hello");
       saveCallback.current();
     }
   };
@@ -30,20 +29,11 @@ const useClickOutside = (ref, ref2, callback, dependency) => {
 };
 export default useClickOutside;
 
-export const useClickOutside2 = (
-  ref,
-  ref2,
-  openCallback,
-  closeCallback,
-  dependency
-) => {
-  const saveOpenCallback = useRef(openCallback);
-  const saveCloseCallback = useRef(closeCallback);
+export const useClickOutside2 = (ref, ref2, callback, dependency) => {
+  const saveCallback = useRef(callback);
 
   useEffect(() => {
-    // alert(dependency);
-    saveOpenCallback.current = openCallback;
-    saveCloseCallback.current = closeCallback;
+    saveCallback.current = callback;
   });
 
   const handler = (event) => {
@@ -53,7 +43,7 @@ export const useClickOutside2 = (
     ) {
       return null;
     } else {
-      saveCloseCallback.current();
+      saveCallback.current();
     }
   };
 

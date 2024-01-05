@@ -18,7 +18,7 @@ const FooterStyle = styled.footer`
     gap: 60px;
 
     line-height: 23px;
-    font-family: "DM Sans";
+    
     padding: 60px 7% 100px;
 
     @media screen and (max-width: 1100px) {

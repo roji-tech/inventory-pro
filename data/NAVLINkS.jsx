@@ -131,7 +131,7 @@ export const NAVLINkS = [
 export const userItem = {
   title: <img src="/user.svg" alt="" width={25} />,
   links: [
-    { name: "Sign In", link: "/auth/login" },
+    { name: "Sign In", link: "/login" },
     { name: "Create Account", link: "/auth/signup" },
   ],
 };
@@ -148,12 +148,12 @@ export const userItem1 = (LI, logout) => ({
           color="red"
           reverse={1}
           space={1}
-          href={"/auth/login"}
+          href={"/login"}
           showImg={1}
           handle={logout}
         />
       ),
-      link: "/auth/login",
+      link: "/login",
     },
   ],
 });

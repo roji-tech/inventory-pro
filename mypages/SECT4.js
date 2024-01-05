@@ -1,3 +1,6 @@
+
+
+
 export const ordersData = [
   {
     id: 1,
@@ -169,6 +172,7 @@ export const ordersData2 = [
     price: 1000,
     supply: 86,
     status: "average",
+    category: "Drugs",
   },
   {
     id: 2,
@@ -177,6 +181,7 @@ export const ordersData2 = [
     price: 700,
     supply: 14,
     status: "active",
+    category: "Stationeries",
   },
   {
     id: 3,
@@ -185,6 +190,7 @@ export const ordersData2 = [
     price: 961,
     supply: 8,
     status: "average",
+    category: "Beverage",
   },
   {
     id: 4,
@@ -193,6 +199,7 @@ export const ordersData2 = [
     price: 790,
     supply: 32,
     status: "active",
+    category: "Drugs",
   },
   {
     id: 5,
@@ -201,6 +208,7 @@ export const ordersData2 = [
     price: 384,
     supply: 78,
     status: "active",
+    category: "Stationeries",
   },
   {
     id: 6,
@@ -209,6 +217,7 @@ export const ordersData2 = [
     price: 265,
     supply: 7,
     status: "average",
+    category: "Multi-Media",
   },
   {
     id: 7,
@@ -217,6 +226,7 @@ export const ordersData2 = [
     price: 527,
     supply: 58,
     status: "active",
+    category: "Beverage",
   },
   {
     id: 8,
@@ -225,6 +235,7 @@ export const ordersData2 = [
     price: 321,
     supply: 54,
     status: "average",
+    category: "Spray",
   },
   {
     id: 9,
@@ -233,6 +244,7 @@ export const ordersData2 = [
     price: 196,
     supply: 85,
     status: "active",
+    category: "Stationeries",
   },
   {
     id: 10,
@@ -241,6 +253,7 @@ export const ordersData2 = [
     price: 113,
     supply: 77,
     status: "average",
+    category: "Spray",
   },
   {
     id: 11,
@@ -249,6 +262,7 @@ export const ordersData2 = [
     price: 137,
     supply: 49,
     status: "active",
+    category: "Beverage",
   },
   {
     id: 12,
@@ -257,6 +271,7 @@ export const ordersData2 = [
     price: 533,
     supply: 43,
     status: "average",
+    category: "Multi-Media",
   },
   {
     id: 13,
@@ -265,6 +280,7 @@ export const ordersData2 = [
     price: 468,
     supply: 45,
     status: "active",
+    category: "Spray",
   },
   {
     id: 14,
@@ -273,6 +289,7 @@ export const ordersData2 = [
     price: 834,
     supply: 7,
     status: "re-order point",
+    category: "Multi-Media",
   },
   {
     id: 15,
@@ -281,6 +298,7 @@ export const ordersData2 = [
     price: 9,
     supply: 10,
     status: "re-order point",
+    category: "Spray",
   },
   {
     id: 16,
@@ -289,6 +307,7 @@ export const ordersData2 = [
     price: 71,
     supply: 96,
     status: "active",
+    category: "Stationeries",
   },
   {
     id: 17,
@@ -297,6 +316,7 @@ export const ordersData2 = [
     price: 878,
     supply: 7,
     status: "re-order point",
+    category: "Spray",
   },
   {
     id: 18,
@@ -305,6 +325,7 @@ export const ordersData2 = [
     price: 436,
     supply: 11,
     status: "active",
+    category: "Multi-Media",
   },
   {
     id: 19,
@@ -313,6 +334,7 @@ export const ordersData2 = [
     price: 45,
     supply: 99,
     status: "active",
+    category: "Stationeries",
   },
   {
     id: 20,
@@ -321,6 +343,7 @@ export const ordersData2 = [
     price: 740,
     supply: 2,
     status: "active",
+    category: "Stationeries",
   },
 ];
 
@@ -332,6 +355,7 @@ export const ordersData3 = [
     price: 853,
     supply: 83,
     status: "active",
+    category: "",
   },
   {
     id: 22,
@@ -340,6 +364,7 @@ export const ordersData3 = [
     price: 285,
     supply: 76,
     status: "active",
+    category: "",
   },
   {
     id: 23,
@@ -348,6 +373,7 @@ export const ordersData3 = [
     price: 382,
     supply: 29,
     status: "pending",
+    category: "",
   },
   {
     id: 24,
@@ -356,6 +382,7 @@ export const ordersData3 = [
     price: 307,
     supply: 39,
     status: "pending",
+    category: "",
   },
   {
     id: 25,
@@ -364,6 +391,7 @@ export const ordersData3 = [
     price: 622,
     supply: 36,
     status: "pending",
+    category: "",
   },
   {
     id: 26,
@@ -372,6 +400,7 @@ export const ordersData3 = [
     price: 792,
     supply: 82,
     status: "pending",
+    category: "",
   },
   {
     id: 27,
@@ -380,6 +409,7 @@ export const ordersData3 = [
     price: 507,
     supply: 99,
     status: "active",
+    category: "",
   },
   {
     id: 28,
@@ -388,6 +418,7 @@ export const ordersData3 = [
     price: 373,
     supply: 51,
     status: "pending",
+    category: "",
   },
   {
     id: 29,
@@ -396,6 +427,7 @@ export const ordersData3 = [
     price: 727,
     supply: 7,
     status: "active",
+    category: "",
   },
   {
     id: 30,
@@ -404,6 +436,7 @@ export const ordersData3 = [
     price: 173,
     supply: 11,
     status: "pending",
+    category: "",
   },
   {
     id: 31,
@@ -412,6 +445,7 @@ export const ordersData3 = [
     price: 523,
     supply: 40,
     status: "pending",
+    category: "",
   },
   {
     id: 32,
@@ -420,6 +454,7 @@ export const ordersData3 = [
     price: 119,
     supply: 53,
     status: "pending",
+    category: "",
   },
   {
     id: 33,
@@ -428,6 +463,7 @@ export const ordersData3 = [
     price: 325,
     supply: 25,
     status: "pending",
+    category: "",
   },
   {
     id: 34,
@@ -436,6 +472,7 @@ export const ordersData3 = [
     price: 517,
     supply: 94,
     status: "pending",
+    category: "",
   },
   {
     id: 35,
@@ -444,6 +481,7 @@ export const ordersData3 = [
     price: 5,
     supply: 22,
     status: "pending",
+    category: "",
   },
   {
     id: 36,
@@ -452,6 +490,7 @@ export const ordersData3 = [
     price: 650,
     supply: 53,
     status: "active",
+    category: "",
   },
   {
     id: 37,
@@ -460,6 +499,7 @@ export const ordersData3 = [
     price: 238,
     supply: 26,
     status: "active",
+    category: "",
   },
   {
     id: 38,
@@ -468,6 +508,7 @@ export const ordersData3 = [
     price: 672,
     supply: 9,
     status: "active",
+    category: "",
   },
   {
     id: 39,
@@ -476,6 +517,7 @@ export const ordersData3 = [
     price: 77,
     supply: 1,
     status: "active",
+    category: "",
   },
   {
     id: 40,
@@ -484,6 +526,7 @@ export const ordersData3 = [
     price: 938,
     supply: 23,
     status: "active",
+    category: "",
   },
   {
     id: 41,
@@ -492,6 +535,7 @@ export const ordersData3 = [
     price: 21,
     supply: 30,
     status: "active",
+    category: "",
   },
   {
     id: 42,
@@ -500,6 +544,7 @@ export const ordersData3 = [
     price: 970,
     supply: 17,
     status: "active",
+    category: "",
   },
   {
     id: 43,
@@ -508,6 +553,7 @@ export const ordersData3 = [
     price: 34,
     supply: 93,
     status: "active",
+    category: "",
   },
   {
     id: 44,
@@ -516,6 +562,7 @@ export const ordersData3 = [
     price: 479,
     supply: 36,
     status: "active",
+    category: "",
   },
   {
     id: 45,
@@ -524,6 +571,7 @@ export const ordersData3 = [
     price: 938,
     supply: 22,
     status: "active",
+    category: "",
   },
   {
     id: 46,
@@ -532,6 +580,7 @@ export const ordersData3 = [
     price: 789,
     supply: 75,
     status: "active",
+    category: "",
   },
   {
     id: 47,
@@ -540,6 +589,7 @@ export const ordersData3 = [
     price: 898,
     supply: 57,
     status: "active",
+    category: "",
   },
   {
     id: 48,

@@ -19,7 +19,6 @@ const Button = styled.button`
   background: #243cf4;
   border-radius: 13.0556px;
   font-size: 15.0556px;
-  font-family: "Poppins";
   font-weight: 700;
   line-height: 20px;
   color: rgba(255, 255, 255, 0.98);

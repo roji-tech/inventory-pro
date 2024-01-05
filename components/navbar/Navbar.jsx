@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-// import useStore from "@contexts/StoreContext";
 import useAuth from "@contexts/AuthContext";
 import styled from "styled-components";
 import useAxios from "@hooks/useAxios";
@@ -11,7 +10,7 @@ import { useRef } from "react";
 
 const Navbar = ({ isopen, setIsOpen, hamRef }) => {
   const [count, setCount] = useState(15);
-  const { token, logout, user, setUser } = useAuth();
+  const { token, logout, state, fetchUser } = useAuth();
   const [myuser, setMyuser] = useState({});
   const router = useRouter();
   const axiosInstance = useAxios();
@@ -21,26 +20,13 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
 
   useClickOutside(notsRef, notsRef2, () => setShowNot(false), showNot);
 
-  // const logoutFunc = () => {
-  //   logout();
-  //   router.push("/login");
-  // };
-
-  // const fetchUser = async () => {
-  //   if (token) {
-  //     await axiosInstance
-  //       .get("/central/myusers/me/")
-  //       .then((resp) => {
-  //         console.log("UPDATING USER");
-  //         setUser(() => ({ ...resp.data }));
-  //       })
-  //       .catch((err) => console.log(`ERROR=== ${err?.response?.status}`));
-  //   }
-  // };
-
   useEffect(() => {
-    setMyuser(user);
-  }, [user]);
+    if (state?.user) {
+      setMyuser(state?.user);
+    } else {
+      fetchUser();
+    }
+  }, [state?.user]);
 
   return (
     <Container>
@@ -49,8 +35,10 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
           <img src={"milo.svg"} alt="" />
         </div>
         <div className="title _flex_col_code">
-          <p>{myuser?.name || "Ajibola-B.O"}</p>
-          <small>{myuser?.role || "Marketer"}</small>
+          <p>{myuser?.full_name || "Mr Noname"}</p>
+          <small className="_capitalize">
+            {myuser?.role || "His Role"} @ <b>{myuser?.business?.name}</b>
+          </small>
         </div>
       </div>
 
@@ -223,7 +211,7 @@ const Container = styled.section`
       .title {
         p {
           color: #262626;
-          font-family: "Source Sans Pro";
+
           font-size: 20px;
           font-style: normal;
           font-weight: 600;
@@ -232,7 +220,7 @@ const Container = styled.section`
 
         small {
           color: #686767;
-          font-family: "Source Sans Pro";
+
           font-size: 20px;
           font-style: normal;
           font-weight: 300;
@@ -276,7 +264,7 @@ const Container = styled.section`
           width: 100%;
           height: 100%;
           color: #262626;
-          font-family: "Source Sans Pro";
+
           font-size: 20px;
           font-style: normal;
           font-weight: 600;
@@ -358,7 +346,6 @@ const Container = styled.section`
 
           box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.2);
 
-          font-family: "Source Sans Pro";
           font-style: normal;
 
           header {
@@ -406,14 +393,14 @@ const Container = styled.section`
                 .text {
                   p {
                     color: #1a1f36;
-                    font-family: "Source Sans Pro";
+
                     font-size: 14px;
                     font-style: normal;
                     font-weight: 600;
                     line-height: 20px;
 
                     color: #1a1f36;
-                    font-family: "Source Sans Pro";
+
                     font-size: 14px;
                     font-style: normal;
                     font-weight: 400;
@@ -422,7 +409,7 @@ const Container = styled.section`
 
                   span {
                     color: #ff9400;
-                    font-family: "Source Sans Pro";
+
                     font-size: 14px;
                     font-style: normal;
                     font-weight: 400;
@@ -461,7 +448,6 @@ const Container = styled.section`
                     color: #3c4257;
                     text-align: center;
 
-                    font-family: Inter;
                     font-size: 14px;
                     font-style: normal;
                     font-weight: 500;

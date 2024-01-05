@@ -1,20 +1,21 @@
 import axios from "axios";
-import { baseURL } from "../config";
+import { api } from "@config.js";
 import useAuth from "../contexts/AuthContext";
+import { typ } from "@reducers/AuthReducer";
+import { ShowErrors } from "@utils/ShowErrors";
 
 // message: 'timeout exceeded' code: ECONNABORTED
 // message: 'Network Error', name: 'AxiosError', code: 'ERR_NETWORK',
 const useAxios = () => {
-  const { token, logout } = useAuth();
+  const authData = useAuth();
 
-  const local_token = globalThis?.localStorage?.getItem("BRANDDE_AUTH_DATA")
-    ? JSON.parse(globalThis?.localStorage?.getItem("BRANDDE_AUTH_DATA"))
-    : null;
+  let local_access_token =
+    globalThis?.localStorage?.getItem("access_token") ?? null;
 
   const axiosInstance = axios.create({
-    baseURL,
+    baseURL: api?.baseURL,
     headers: {
-      Authorization: token || local_token?.token || null,
+      Authorization: local_access_token,
       "Content-Type": "application/json",
     },
     timeout: 10000,
@@ -26,10 +27,18 @@ const useAxios = () => {
     // Do something with response error
     async (error) => {
       console.log(`==ERROR ${error?.response?.status} IN INTERCEPTOR=`);
+      console.log(error?.response?.headers);
       if (error?.response?.status === 401) {
-        logout();
+        try {
+          refreshAccessToken(
+            authData?.state?.refresh_token,
+            authData?.dispatchFunc
+          );
+        } catch (error) {
+          authData?.logout();
+          return Promise.reject(error);
+        }
       }
-      return Promise.reject(error);
     }
   );
 
@@ -62,3 +71,41 @@ export default useAxios;
 
 // const myInterceptor = axios.interceptors.request.use(function () {/*...*/});
 // axios.interceptors.request.eject(myInterceptor);
+
+const refreshAccessToken = async (refresh_token, dispatchFunc) => {
+  const local_refresh_token =
+    globalThis?.localStorage?.getItem("refresh_token") ?? null;
+
+  const token = refresh_token ?? local_refresh_token;
+
+  if (!token) {
+    ShowErrors("Logging Out");
+    return null;
+  }
+
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: api.refresh,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: { refresh: token },
+  };
+
+  console.log({ refresh: token });
+
+  try {
+    const response = await axios(config);
+    console.log(JSON.stringify(response.data));
+    alert(JSON.stringify(response.data));
+    dispatchFunc(typ.setAccessToken, response.data);
+    return response.data?.access;
+  } catch (error) {
+    dispatchFunc(typ.clearAll);
+    console.log(error);
+    alert(error);
+    alert("tttttttttt");
+    throw error;
+  }
+};
