@@ -3,6 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { initialState, authReducer, typ } from "@reducers/AuthReducer";
 import { api } from "@config";
+import { ShowErrors } from "@utils/ShowErrors";
 
 const AuthContext = createContext({
   state: {
@@ -50,7 +51,7 @@ export const AuthProvider = ({ children }) => {
       let route = router.pathname.split("[")[0];
       dispatchFunc(typ.setPage, { page: route });
     }
-
+    ShowErrors("Logging Out");
     dispatchFunc(typ.clearAll);
     if (replace) {
       router.replace("/login");

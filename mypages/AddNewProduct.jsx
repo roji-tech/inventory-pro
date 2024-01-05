@@ -54,6 +54,7 @@ const AddNewProduct = () => {
     "get",
     {},
     "Categories"
+    
   );
 
   // const data = transformCatData(categoriesList?.results);

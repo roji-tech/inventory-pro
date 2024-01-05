@@ -56,11 +56,11 @@ const Products = () => {
     "/products/",
     "get",
     {},
-    "Products"
+    "Products",
+    transformProductJsonData
   );
 
   // const rows = ordersData2.slice(0, 100);
-  const rows = transformProductJsonData(productList?.results);
 
   const columns = [
     {
@@ -179,7 +179,7 @@ const Products = () => {
             <section className="contentSection">
               <MyDataGrid
                 height={"100%"}
-                rows={rows}
+                rows={productList?.results}
                 columns={columns}
                 customStyles={`
                     .actions {

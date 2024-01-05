@@ -471,10 +471,10 @@ const Orders = () => {
     "/orders/",
     "get",
     {},
-    "Orders"
+    "Orders",
+    transformJsonData
   );
 
-  const data = transformJsonData(ordersList?.results);
 
   const processing = {
     color: "#3C3E91",
@@ -511,7 +511,7 @@ const Orders = () => {
         }
         mainContent={
           <section className="contentSection _flex_jcse _wrap">
-            {data.map((item, index) => (
+            {ordersList?.results?.map((item, index) => (
               <div
                 key={index}
                 className="orderBox _p15 _gap20 _flex_col _border2"
@@ -520,9 +520,9 @@ const Orders = () => {
                   <p
                     className="orderStatus _grid_center"
                     style={
-                      item?.status.includes("Processing")
+                      item?.status?.includes("Processing")
                         ? processing
-                        : item?.status.includes("Completed")
+                        : item?.status?.includes("Completed")
                         ? completed
                         : cancelled
                     }
@@ -712,9 +712,6 @@ const Orders = () => {
                       </div>
                     </div>
                   </div>
-
-                  {/* <div className="_flex info"></div>
-                  <div className="_flex info"></div> */}
                 </div>
               </div>
             ))}

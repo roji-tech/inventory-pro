@@ -2,12 +2,11 @@ import axios from "axios";
 import { api } from "@config.js";
 import useAuth from "../contexts/AuthContext";
 import { typ } from "@reducers/AuthReducer";
-import { ShowErrors } from "@utils/ShowErrors";
 
 // message: 'timeout exceeded' code: ECONNABORTED
 // message: 'Network Error', name: 'AxiosError', code: 'ERR_NETWORK',
 const useAxios = () => {
-  const authData = useAuth();
+  const { logout, state, dispatchFunc } = useAuth();
 
   let local_access_token =
     globalThis?.localStorage?.getItem("access_token") ?? null;
@@ -15,7 +14,7 @@ const useAxios = () => {
   const axiosInstance = axios.create({
     baseURL: api?.baseURL,
     headers: {
-      Authorization: local_access_token,
+      Authorization: state?.access_token ?? local_access_token,
       "Content-Type": "application/json",
     },
     timeout: 10000,
@@ -30,12 +29,10 @@ const useAxios = () => {
       console.log(error?.response?.headers);
       if (error?.response?.status === 401) {
         try {
-          refreshAccessToken(
-            authData?.state?.refresh_token,
-            authData?.dispatchFunc
-          );
+          refreshAccessToken(state?.refresh_token, dispatchFunc, logout);
         } catch (error) {
-          authData?.logout();
+          console.warn(error);
+          logout();
           return Promise.reject(error);
         }
       }
@@ -72,15 +69,15 @@ export default useAxios;
 // const myInterceptor = axios.interceptors.request.use(function () {/*...*/});
 // axios.interceptors.request.eject(myInterceptor);
 
-const refreshAccessToken = async (refresh_token, dispatchFunc) => {
+const refreshAccessToken = async (refresh_token, dispatchFunc, logout) => {
   const local_refresh_token =
     globalThis?.localStorage?.getItem("refresh_token") ?? null;
 
   const token = refresh_token ?? local_refresh_token;
 
   if (!token) {
-    ShowErrors("Logging Out");
-    return null;
+    logout();
+    throw "No token";
   }
 
   let config = {
@@ -102,10 +99,8 @@ const refreshAccessToken = async (refresh_token, dispatchFunc) => {
     dispatchFunc(typ.setAccessToken, response.data);
     return response.data?.access;
   } catch (error) {
-    dispatchFunc(typ.clearAll);
     console.log(error);
-    alert(error);
-    alert("tttttttttt");
+    logout();
     throw error;
   }
 };

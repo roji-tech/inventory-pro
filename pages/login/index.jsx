@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
@@ -8,7 +9,6 @@ import styled from "styled-components";
 import axios from "axios";
 import { api } from "@config";
 
-import { useState } from "react";
 // import Link from "next/link";
 // import { AuthLayout } from "@layouts/AuthLayout";
 import { ShowErrors } from "@utils/ShowErrors";
@@ -24,8 +24,8 @@ import { ShowSuccess } from "@utils/ShowSuccess";
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const emailRef = React.useRef();
-  const passRef = React.useRef();
+  const emailRef = useRef();
+  const passRef = useRef();
 
   const [isLoading, setLoading] = useState(false);
 
@@ -215,6 +215,7 @@ export default function SignInSide() {
                 </InputBox.Wrapper>
 
                 <Button
+                  disabled={isLoading}
                   type="submit"
                   fullWidth
                   variant="contained"
