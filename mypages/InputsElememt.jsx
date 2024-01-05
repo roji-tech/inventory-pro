@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 
 export const InputsElememt = ({ LIST, extras }) => {
   return (
@@ -25,8 +27,9 @@ export const InputBox = ({ item }) => {
           type={item?.type || "text"}
           className="_flex1"
           placeholder={item?.ph || ""}
-          id={item?.id}
+          name={item?.id}
           value={item?.value}
+          onChange={item?.handleChange}
           ref={item?.ref}
         />
         {item?.showArrow && <img src="/input_arrow_down.svg" alt="" />}
@@ -59,20 +62,20 @@ export const SelectBox = ({ item }) => {
     <InputBoxStyle key={item?.name} className="input_item _flex_col _gap8">
       <p>{item?.name}</p>
       <div className="input _flex _align_center">
-        <select
-          type={item?.type || "text"}
-          className="_flex1"
+        <MySelect
           placeholder={item?.ph || ""}
-          id={item?.id}
+          name={item?.id}
+          labelId="demo-simple-select-label"
+          className="_flex1"
           value={item?.value}
+          onChange={item?.handleChange}
           ref={item?.ref}
+          label="Age"
         >
-          
           {item?.options?.map((opt) => (
-            <option value={opt?.value}>{opt?.name}</option>
+            <MenuItem value={opt?.value}>{opt?.name}</MenuItem>
           ))}
-        </select>
-        {item?.showArrow && <img src="/input_arrow_down.svg" alt="" />}
+        </MySelect>
       </div>
       {item?.showDownText ? (
         <div className="down_text _flex _align_center">
@@ -96,6 +99,13 @@ export const SelectBox = ({ item }) => {
     </InputBoxStyle>
   );
 };
+
+const MySelect = styled(Select)`
+  &&& {
+    border: none !important;
+    outline: none !important;
+  }
+`;
 
 const InputBoxStyle = styled.div`
   &&& {

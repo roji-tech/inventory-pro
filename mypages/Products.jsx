@@ -17,7 +17,7 @@ import { useFetchData } from "@hooks/useFetchData";
 import { getRandomValues } from "@utils/getRandomStatus";
 
 const Products = () => {
-  const formattedData = [
+  const defaultData = [
     {
       id: "b681f500-2012-45fd-908a-40b0e4c4858f",
       name: "Sugar",
@@ -50,9 +50,9 @@ const Products = () => {
     },
   ];
 
-  console.log("fffffffffffffffffff", formattedData);
+  console.log("fffffffffffffffffff", defaultData);
   const [productList, setProductList] = useFetchData(
-    formattedData,
+    defaultData,
     "/products/",
     "get",
     {},
@@ -60,7 +60,7 @@ const Products = () => {
   );
 
   // const rows = ordersData2.slice(0, 100);
-  const rows = transformProductJsonData(productList);
+  const rows = transformProductJsonData(productList?.results);
 
   const columns = [
     {

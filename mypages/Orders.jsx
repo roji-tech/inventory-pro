@@ -6,7 +6,7 @@ import { useFetchData } from "@hooks/useFetchData";
 import { getRandomValues } from "@utils/getRandomStatus";
 
 const Orders = () => {
-  const formattedData = transformJsonData([
+  const defaultData = [
     {
       id: "ac29fb53-d7a7-4303-b882-8f0b5f934525",
       vendor: {
@@ -464,15 +464,17 @@ const Orders = () => {
         },
       ],
     },
-  ]);
+  ];
 
   const [ordersList, setOrderList] = useFetchData(
-    formattedData,
+    defaultData,
     "/orders/",
     "get",
     {},
     "Orders"
   );
+
+  const data = transformJsonData(ordersList?.results);
 
   const processing = {
     color: "#3C3E91",
@@ -509,7 +511,7 @@ const Orders = () => {
         }
         mainContent={
           <section className="contentSection _flex_jcse _wrap">
-            {ordersList.map((item, index) => (
+            {data.map((item, index) => (
               <div
                 key={index}
                 className="orderBox _p15 _gap20 _flex_col _border2"

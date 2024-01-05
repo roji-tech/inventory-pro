@@ -6,10 +6,42 @@ import PagesMainLayout from "@layouts/PagesMainLayout";
 
 import useAxios from "@hooks/useAxios";
 import { fetchDataWithUseAxios } from "@utils/fetchDataWithUseAxios";
+import { useFetchData } from "@hooks/useFetchData";
 
 const AddNewProduct = () => {
-  const axiosInstance = useAxios();
-  const data = fetchDataWithUseAxios(axiosInstance, "/products/");
+  // const axiosInstance = useAxios();
+
+  const defaultData = [
+    [
+      {
+        name: "Books",
+      },
+      {
+        name: "Sprays",
+      },
+      {
+        name: "Snacks",
+      },
+      {
+        name: "Beverages",
+      },
+      {
+        name: "Gadgets",
+      },
+    ],
+  ];
+
+  // const data = fetchDataWithUseAxios(axiosInstance, "/products/");
+
+  const [categoriesList, setCategoriesList] = useFetchData(
+    defaultData,
+    "/categories/",
+    "get",
+    {},
+    "Categories"
+  );
+
+  const data = transformCatData(categoriesList);
 
   const INPUT_LIST = [
     { name: "Product Name", ph: "Book", showArrow: false },
@@ -172,3 +204,11 @@ const Wrapper = styled.div`
     }
   }
 `;
+
+function transformCatData(jsonData) {
+  return jsonData.map((order) => {
+    const { name } = order;
+
+    return { name, value: name };
+  });
+}
