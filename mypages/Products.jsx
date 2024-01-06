@@ -50,7 +50,6 @@ const Products = () => {
     },
   ];
 
-  console.log("fffffffffffffffffff", defaultData);
   const [productList, setProductList] = useFetchData(
     defaultData,
     "/products/",
@@ -229,7 +228,7 @@ const Products = () => {
                     }
                   `}
                 initialState={{
-                  rows,
+                 rows: productList?.results,
                   columns,
                   pagination: { paginationModel: { pageSize: 10 } },
                 }}
@@ -298,7 +297,7 @@ function transformProductJsonData(jsonData) {
         product?.status ??
         getRandomValues(["average", "Active", "Re-order point"]),
       category:
-        product?.status ??
+        product?.category ??
         getRandomValues(["Drugs", "Spray", "Beverage", "Stationeries"]),
     };
   });
