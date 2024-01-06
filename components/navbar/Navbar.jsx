@@ -221,7 +221,7 @@ const Container = styled.section`
         small {
           color: #686767;
 
-          font-size: 20px;
+          font-size: 15px;
           font-style: normal;
           font-weight: 300;
           line-height: normal;
