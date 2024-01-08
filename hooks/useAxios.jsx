@@ -35,6 +35,9 @@ const useAxios = () => {
           logout();
           return Promise.reject(error);
         }
+      } else {
+        console.warn(error);
+        return Promise.reject(error);
       }
     }
   );

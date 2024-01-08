@@ -60,7 +60,7 @@ export default function SignInSide() {
     axios(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        alert(JSON.stringify(response.data));
+        // alert(JSON.stringify(response.data));
         dispatchFunc(typ.setAll, response.data);
         ShowSuccess("Logged in");
         router.replace(state?.page || "/");

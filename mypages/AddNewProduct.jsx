@@ -5,61 +5,49 @@ import { InputsElememt, InputBox, SelectBox } from "./InputsElememt";
 // import { StockBox1 } from "@mypages/stocks/StockBox1";
 import PagesMainLayout from "@layouts/PagesMainLayout";
 
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-
 import useAxios from "@hooks/useAxios";
 import { fetchDataWithUseAxios } from "@utils/fetchDataWithUseAxios";
 import { ShowErrors } from "@utils/ShowErrors";
 import { ShowSuccess } from "@utils/ShowSuccess";
 import { useFetchData } from "@hooks/useFetchData";
+import useAuth from "@contexts/AuthContext";
+import { useRouter } from "next/router";
 
 const AddNewProduct = () => {
+  const { state } = useAuth();
+ const router = useRouter()
+
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     name: "",
     category: "",
+    email: state?.user?.email,
   });
 
-  // const axiosInstance = useAxios();
+  const axiosInstance = useAxios();
 
   const defaultData = [
-    [
-      {
-        name: "Books",
-      },
-      {
-        name: "Sprays",
-      },
-      {
-        name: "Snacks",
-      },
-      {
-        name: "Beverages",
-      },
-      {
-        name: "Gadgets",
-      },
-    ],
+    { name: "Books", id: "i767o878" },
+    { name: "Sprays", id: "jhui9yo77yhg6" },
+    { name: "Snacks", id: "lij8u8yntg" },
+    { name: "Beverages", id: "lh8y89jy8" },
+    { name: "Gadgets", id: "6rgyr8787689" },
+    { name: "Category 1", id: "cat1" },
+    { name: "Category 2", id: "cat2" },
+    { name: "Category 3", id: "cat3" },
+    { name: "Category 4", id: "cat4" },
   ];
-
-  // const data = fetchDataWithUseAxios(axiosInstance, "/products/");
 
   const [categoriesList, setCategoriesList] = useFetchData(
     defaultData,
     "/categories/",
     "get",
     {},
-    "Categories"
-    
+    "Categories",
+    transformCatData
   );
 
-  // const data = transformCatData(categoriesList?.results);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(values);
 
@@ -68,10 +56,24 @@ const AddNewProduct = () => {
       return;
     }
     ShowSuccess("Creating Product");
+    await fetchDataWithUseAxios(
+      axiosInstance,
+      "/products/",
+      "post",
+      values,
+      "Create Product",
+      setLoading
+    )
+      .then(() => {
+        alert("done");
+        router.push("/products")
+      })
+      .catch((error) => {
+        console.warn(error);
+        alert("error");
+      });
   };
 
-  // const axiosInstance = useAxios();
-  // const data = fetchDataWithUseAxios(axiosInstance, "/products/");
   const handleChange = (event) => {
     setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
   };
@@ -91,12 +93,7 @@ const AddNewProduct = () => {
       ph: "Stationaries",
       handleChange,
       value: values?.category,
-      options: [
-        { name: "Category 1", value: "cat1" },
-        { name: "Category 2", value: "cat2" },
-        { name: "Category 3", value: "cat3" },
-        { name: "Category 4", value: "cat4" },
-      ],
+      options: categoriesList?.results,
     },
   ];
 
@@ -172,10 +169,10 @@ const Wrapper = styled.div`
 `;
 
 function transformCatData(jsonData) {
-  console.log(jsonData);
+  console.log("JSON DATA", jsonData);
   return jsonData.map((item) => {
-    const { name } = item;
+    const { name, id } = item;
 
-    return { name, value: name };
+    return { name, value: id };
   });
 }

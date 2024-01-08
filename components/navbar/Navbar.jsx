@@ -1,32 +1,45 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import useAuth from "@contexts/AuthContext";
+// import { useRouter } from "next/router";
+// import useAuth from "@contexts/AuthContext";
 import styled from "styled-components";
 import useAxios from "@hooks/useAxios";
 import useClickOutside from "@hooks/useClickOutside";
 import { useRef } from "react";
+import { fetchDataWithUseAxios } from "@utils/fetchDataWithUseAxios";
+import { api } from "@config";
+import { ShowErrors } from "@utils/ShowErrors";
 
 const Navbar = ({ isopen, setIsOpen, hamRef }) => {
   const [count, setCount] = useState(15);
-  const { token, logout, state, fetchUser } = useAuth();
+  // const {  state } = useAuth();
+  // const router = useRouter();
   const [myuser, setMyuser] = useState({});
-  const router = useRouter();
-  const axiosInstance = useAxios();
+  const myaxios = useAxios();
   const [showNot, setShowNot] = useState(false);
   const notsRef = useRef();
   const notsRef2 = useRef();
 
   useClickOutside(notsRef, notsRef2, () => setShowNot(false), showNot);
 
+  const setUserFunc = async () => {
+    await fetchDataWithUseAxios(myaxios, api.me, "get", {}, "User Info")
+      .then((resp) => {
+        setMyuser({
+          ...resp,
+        });
+        console.warn(resp, "resp");
+      })
+      .catch((error) => {
+        console.warn(error, "error");
+        ShowErrors("Logging Out");
+      });
+  };
+
   useEffect(() => {
-    if (state?.user) {
-      setMyuser(state?.user);
-    } else {
-      fetchUser();
-    }
-  }, [state?.user]);
+    setUserFunc();
+  }, []);
 
   return (
     <Container>
@@ -35,9 +48,9 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
           <img src={"milo.svg"} alt="" />
         </div>
         <div className="title _flex_col_code">
-          <p>{myuser?.full_name || "Mr Noname"}</p>
+          <p>{myuser?.full_name || "Noname"}</p>
           <small className="_capitalize">
-            {myuser?.role || "His Role"} @ <b>{myuser?.business?.name}</b>
+            {myuser?.role || "Role"} @<b>{myuser?.business?.name}</b>
           </small>
         </div>
       </div>
@@ -221,7 +234,7 @@ const Container = styled.section`
         small {
           color: #686767;
 
-          font-size: 15px;
+          font-size: 13px;
           font-style: normal;
           font-weight: 300;
           line-height: normal;

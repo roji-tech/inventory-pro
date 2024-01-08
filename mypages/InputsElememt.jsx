@@ -71,7 +71,13 @@ export const SelectBox = ({ item }) => {
           onChange={item?.handleChange}
           ref={item?.ref}
           label="Age"
+          displayEmpty
+          defaultValue={"None"}
         >
+          <MenuItem value={""}>
+            <em>Select--</em>
+          </MenuItem>
+
           {item?.options?.map((opt) => (
             <MenuItem value={opt?.value}>{opt?.name}</MenuItem>
           ))}

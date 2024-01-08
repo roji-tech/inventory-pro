@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
       let route = router.pathname.split("[")[0];
       dispatchFunc(typ.setPage, { page: route });
     }
-    ShowErrors("Logging Out");
+    // ShowErrors("Logging Out");
     dispatchFunc(typ.clearAll);
     if (replace) {
       router.replace("/login");

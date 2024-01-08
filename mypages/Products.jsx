@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ordersData2 } from "@mypages/SECT4";
 import {
@@ -13,8 +14,51 @@ import { SearchBox } from "./SearchBox";
 // import { memo, useRef } from "react";
 // import { useClickOutside2 } from "@hooks/useClickOutside";
 import Link from "next/link";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Close";
 import { useFetchData } from "@hooks/useFetchData";
 import { getRandomValues } from "@utils/getRandomStatus";
+import {
+  GridRowModes,
+  DataGrid,
+  GridToolbarContainer,
+  GridActionsCellItem,
+  GridRowEditStopReasons,
+} from "@mui/x-data-grid";
+
+import {
+  randomCreatedDate,
+  randomTraderName,
+  randomId,
+  randomArrayItem,
+} from "@mui/x-data-grid-generator";
+
+const roles = ["Market", "Finance", "Development"];
+
+function EditToolbar(props) {
+  const { setRows, setRowModesModel } = props;
+
+  const handleClick = () => {
+    const id = randomId();
+    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
+    setRowModesModel((oldModel) => ({
+      ...oldModel,
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+    }));
+  };
+
+  return (
+    <GridToolbarContainer>
+      {/* <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}> */}
+      Add record
+      {/* </Button> */}
+    </GridToolbarContainer>
+  );
+}
 
 const Products = () => {
   const defaultData = [
@@ -50,7 +94,7 @@ const Products = () => {
     },
   ];
 
-  const [productList, setProductList] = useFetchData(
+  const [data, setData] = useFetchData(
     defaultData,
     "/products/",
     "get",
@@ -58,8 +102,12 @@ const Products = () => {
     "Products",
     transformProductJsonData
   );
-
+  const [rows, setRows] = useState(data?.results);
   // const rows = ordersData2.slice(0, 100);
+
+  useEffect(() => {
+    setRows(data?.results);
+  }, [data]);
 
   const columns = [
     {
@@ -74,6 +122,7 @@ const Products = () => {
       headerName: "PRODUCT NAME",
       width: 250,
       renderCell: renderProductCell,
+      editable: true,
     },
     {
       field: "category",
@@ -81,11 +130,15 @@ const Products = () => {
       width: 150,
       align: "left",
       renderCell: renderCategoryCell,
+      editable: true,
+      type: "singleSelect",
+      valueOptions: ["Market", "Finance", "Development"],
     },
     {
       field: "quantity",
       headerName: "QUANTITY",
       width: 150,
+      type: 'number',
       headerAlign: "center",
       align: "center",
       valueFormatter: (params) => {
@@ -94,6 +147,7 @@ const Products = () => {
         }
         return `${params.value.toLocaleString()} in Stock`;
       },
+      editable: true,
     },
     {
       field: "actions",
@@ -102,29 +156,55 @@ const Products = () => {
       width: 100,
       cellClassName: "actions",
       getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
         return [
           <div className="_flex _gap15">
-            <div className="actionIcon _hover_blue _pointer _p5 _grid_center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
+            {isInEditMode ? (
+              <div className="_flex_col">
+                <GridActionsCellItem
+                  icon={<SaveIcon />}
+                  label="Save"
+                  sx={{
+                    color: "primary.main",
+                  }}
+                  onClick={handleSaveClick(id)}
+                />
+
+                <GridActionsCellItem
+                  icon={<CancelIcon />}
+                  label="Cancel"
+                  className="textPrimary"
+                  onClick={handleCancelClick(id)}
+                  color="inherit"
+                />
+              </div>
+            ) : (
+              <div
+                onClick={() => handleEditClick(id)}
+                className="actionIcon _hover_blue _pointer _p5 _grid_center"
               >
-                <g opacity="0.7" clipPath="url(#clip0_142_2566)">
-                  <path
-                    d="M9.37333 6.01333L9.98667 6.62667L3.94667 12.6667H3.33333V12.0533L9.37333 6.01333ZM11.7733 2C11.6067 2 11.4333 2.06667 11.3067 2.19333L10.0867 3.41333L12.5867 5.91333L13.8067 4.69333C14.0667 4.43333 14.0667 4.01333 13.8067 3.75333L12.2467 2.19333C12.1133 2.06 11.9467 2 11.7733 2ZM9.37333 4.12667L2 11.5V14H4.5L11.8733 6.62667L9.37333 4.12667Z"
-                    fill="#010C15"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_142_2566">
-                    <rect width="16" height="16" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
-            </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <g opacity="0.7" clipPath="url(#clip0_142_2566)">
+                    <path
+                      d="M9.37333 6.01333L9.98667 6.62667L3.94667 12.6667H3.33333V12.0533L9.37333 6.01333ZM11.7733 2C11.6067 2 11.4333 2.06667 11.3067 2.19333L10.0867 3.41333L12.5867 5.91333L13.8067 4.69333C14.0667 4.43333 14.0667 4.01333 13.8067 3.75333L12.2467 2.19333C12.1133 2.06 11.9467 2 11.7733 2ZM9.37333 4.12667L2 11.5V14H4.5L11.8733 6.62667L9.37333 4.12667Z"
+                      fill="#010C15"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_142_2566">
+                      <rect width="16" height="16" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+            )}
             <RenderOptionsCell id={id} />
           </div>,
         ];
@@ -132,12 +212,57 @@ const Products = () => {
     },
   ];
 
-  const handleEditClick = (id) => {
-    console.log(id);
-  };
+  // const handleEditClick = (id) => {
+  //   console.log(id);
+  // };
 
   const handleOptionClick = (id) => {
     console.log(id);
+  };
+
+  const [rowModesModel, setRowModesModel] = useState({});
+
+  const handleRowEditStop = (params, event) => {
+    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+      event.defaultMuiPrevented = true;
+    }
+  };
+
+  const handleEditClick = (id) => {
+    console.log(id);
+    // alert(id);
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleSaveClick = (id) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  const handleDeleteClick = (id) => () => {
+    setRows(rows.filter((row) => row.id !== id));
+  };
+
+  const handleCancelClick = (id) => () => {
+    console.log(id, rows);
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+
+    const editedRow = rows?.find((row) => row.id === id);
+    if (editedRow.isNew) {
+      setRows(rows.filter((row) => row.id !== id));
+    }
+  };
+
+  const processRowUpdate = (newRow) => {
+    const updatedRow = { ...newRow, isNew: false };
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    return updatedRow;
+  };
+
+  const handleRowModesModelChange = (newRowModesModel) => {
+    setRowModesModel(newRowModesModel);
   };
 
   return (
@@ -178,7 +303,7 @@ const Products = () => {
             <section className="contentSection">
               <MyDataGrid
                 height={"100%"}
-                rows={productList?.results}
+                rows={rows}
                 columns={columns}
                 customStyles={`
                     .actions {
@@ -228,13 +353,23 @@ const Products = () => {
                     }
                   `}
                 initialState={{
-                 rows: productList?.results,
+                  rows: rows?.results,
                   columns,
                   pagination: { paginationModel: { pageSize: 10 } },
                 }}
                 pageSizeOptions={[5, 10, 15, 20, 25]}
                 checkboxSelection
                 disableRowSelectionOnClick
+                rowModesModel={rowModesModel}
+                onRowModesModelChange={handleRowModesModelChange}
+                onRowEditStop={handleRowEditStop}
+                processRowUpdate={processRowUpdate}
+                slots={{
+                  toolbar: EditToolbar,
+                }}
+                slotProps={{
+                  toolbar: { setRows, setRowModesModel },
+                }}
               />
             </section>
           </>
