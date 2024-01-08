@@ -77,9 +77,9 @@ export default function SignInSide() {
           if (e.response?.data?.errors.length < 15) {
             return ShowErrors([...e.response?.data?.errors]);
           }
-          return ShowErrors(["Service Temporarily Unavailable"]);
+          return ShowErrors("An Error Occurred");
         } catch (error) {
-          return ShowErrors(["Service Temporarily Unavailable"]);
+          return ShowErrors("An Error Occurred");
         }
       })
       .finally((error) => setLoading(false));
