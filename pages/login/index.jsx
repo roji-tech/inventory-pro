@@ -62,23 +62,23 @@ export default function SignInSide() {
         console.log(JSON.stringify(response.data));
         // alert(JSON.stringify(response.data));
         dispatchFunc(typ.setAll, response.data);
-        ShowSuccess("Logged in");
+        ShowSuccess("Logging you in");
         router.replace(state?.page || "/");
       })
-      .catch((error) => {
-        console.log(error);
-        alert(error);
+      .catch((e) => {
+        console.log("login error", e?.response);
 
         try {
           dispatchFunc(typ.clearAll);
           if (String(e.response.status).startsWith("5")) {
             return ShowErrors(["Service Temporarily Unavailable"]);
           }
-          if (e.response?.data?.errors.length < 15) {
+          if (e.response?.data?.errors?.length < 15) {
             return ShowErrors([...e.response?.data?.errors]);
           }
-          return ShowErrors("An Error Occurred");
+          return ShowErrors(e?.response?.data?.detail ?? "An Error Occurred");
         } catch (error) {
+          console.log(error);
           return ShowErrors("An Error Occurred");
         }
       })
