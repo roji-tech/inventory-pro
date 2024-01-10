@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ordersData2 } from "@mypages/SECT4";
 import { renderProductCell } from "@mypages/renderCell";
@@ -6,42 +6,273 @@ import MyDataGrid from "@components/datagrid";
 import clsx from "clsx";
 import PagesMainLayout from "@layouts/PagesMainLayout";
 import { FilterElement } from "@mypages/FilterElement";
+import { useFetchData } from "@hooks/useFetchData";
+import { getRandomValues } from "@utils/getRandomStatus";
 
 const Stocks = () => {
-  const [current, setCurrent] = useState("All Products");
-  const HEADERS = [
-    { name: "All Products", number: 300, data: [...ordersData2.slice(0, 100)] },
+  const defaultData = [
     {
-      name: "Available",
-      number: 500,
-      data: [...ordersData2.slice(0, 100).filter((item) => item?.supply > 0)],
+      id: "0488e-29eb-4d1d-9504-29f455bea925",
+      serial_no: "#000000",
+      quantity: 12,
+      safety_stock: 0,
+      reordering_point: 0,
+      cost_price: 15,
+      selling_price: 20,
+      holding_cost: 1,
+      ordering_cost: 1,
+      expiring_date: "2030-12-31",
+      barcode: "111111111",
+      image:
+        "https://unsplash.com/photos/a-person-holding-sand-in-their-hands-zYy15TtlgGk?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash",
+      product: {
+        id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+        name: "Product 1",
+        image: null,
+        quantity: null,
+      },
+      size_category: {
+        id: "fa2af31d-3b22-4d91-8d26-7f728db77f74",
+        name: "Size Category 2",
+        product: {
+          id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+          name: "Product 1",
+          image: null,
+          quantity: null,
+        },
+      },
+      category: null,
+      vendor: null,
     },
     {
-      name: "Low on stock",
-      number: 1,
-      data: [...ordersData2.slice(0, 100).filter((item) => item.supply <= 20)],
+      id: "076f-424e-4f2a-8f26-e5ac01aacf00",
+      serial_no: "#000001",
+      quantity: 10,
+      safety_stock: 0,
+      reordering_point: 0,
+      cost_price: 15,
+      selling_price: 20,
+      holding_cost: 1,
+      ordering_cost: 1,
+      expiring_date: "2030-12-31",
+      barcode: "111111111",
+      image:
+        "https://unsplash.com/photos/a-person-holding-sand-in-their-hands-zYy15TtlgGk?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash",
+      product: {
+        id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+        name: "Product 1",
+        image: null,
+        quantity: null,
+      },
+      size_category: {
+        id: "fa2af31d-3b22-4d91-8d26-7f728db77f74",
+        name: "Size Category 2",
+        product: {
+          id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+          name: "Product 1",
+          image: null,
+          quantity: null,
+        },
+      },
+      category: null,
+      vendor: null,
     },
     {
-      name: "Out of stock",
-      number: 1,
-      data: [...ordersData2.slice(0, 100).filter((item) => item?.supply < 1)],
+      id: "2b488e-29eb-4d1d-9504-29f455bea925",
+      serial_no: "#000000",
+      quantity: 9,
+      safety_stock: 0,
+      reordering_point: 0,
+      cost_price: 15,
+      selling_price: 20,
+      holding_cost: 1,
+      ordering_cost: 1,
+      expiring_date: "2030-12-31",
+      barcode: "111111111",
+      image:
+        "https://unsplash.com/photos/a-person-holding-sand-in-their-hands-zYy15TtlgGk?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash",
+      product: {
+        id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+        name: "Product 1",
+        image: null,
+        quantity: null,
+      },
+      size_category: {
+        id: "fa2af31d-3b22-4d91-8d26-7f728db77f74",
+        name: "Size Category 2",
+        product: {
+          id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+          name: "Product 1",
+          image: null,
+          quantity: null,
+        },
+      },
+      category: null,
+      vendor: null,
     },
     {
-      name: "Expiring soon",
-      number: 10,
-      data: [...ordersData2.slice(0, 100).filter((item) => item?.date)],
+      id: "a50ef-424e-4f2a-8f26-e5ac01aacf00",
+      serial_no: "#000001",
+      quantity: 0,
+      safety_stock: 0,
+      reordering_point: 0,
+      cost_price: 15,
+      selling_price: 20,
+      holding_cost: 1,
+      ordering_cost: 1,
+      expiring_date: "2030-12-31",
+      barcode: "111111111",
+      image:
+        "https://unsplash.com/photos/a-person-holding-sand-in-their-hands-zYy15TtlgGk?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash",
+      product: {
+        id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+        name: "Product 5",
+        image: null,
+        quantity: null,
+      },
+      size_category: {
+        id: "fa2af31d-3b22-4d91-8d26-7f728db77f74",
+        name: "Size Category 2",
+        product: {
+          id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+          name: "Product 1",
+          image: null,
+          quantity: null,
+        },
+      },
+      category: null,
+      vendor: null,
+    },
+    {
+      id: "2b40488e-29eb-4d1d-9504-2455bea925",
+      serial_no: "#000000",
+      quantity: 29,
+      safety_stock: 0,
+      reordering_point: 0,
+      cost_price: 15,
+      selling_price: 20,
+      holding_cost: 1,
+      ordering_cost: 1,
+      expiring_date: "2030-12-31",
+      barcode: "111111111",
+      image:
+        "https://unsplash.com/photos/a-person-holding-sand-in-their-hands-zYy15TtlgGk?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash",
+      product: {
+        id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+        name: "Product 1",
+        image: null,
+        quantity: null,
+      },
+      size_category: {
+        id: "fa2af31d-3b22-4d91-8d26-7f728db77f74",
+        name: "Size Category 2",
+        product: {
+          id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+          name: "Product 1",
+          image: null,
+          quantity: null,
+        },
+      },
+      category: null,
+      vendor: null,
+    },
+    {
+      id: "a50e076f-424e-4f2af26-e5ac01aacf00",
+      serial_no: "#000001",
+      quantity: 3,
+      safety_stock: 0,
+      reordering_point: 0,
+      cost_price: 15,
+      selling_price: 20,
+      holding_cost: 1,
+      ordering_cost: 1,
+      expiring_date: "2030-12-31",
+      barcode: "111111111",
+      image:
+        "https://unsplash.com/photos/a-person-holding-sand-in-their-hands-zYy15TtlgGk?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash",
+      product: {
+        id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+        name: "Product 1",
+        image: null,
+        quantity: null,
+      },
+      size_category: {
+        id: "fa2af31d-3b22-4d91-8d26-7f728db77f74",
+        name: "Size Category 2",
+        product: {
+          id: "163941ca-7eb9-45a0-bc0f-d6861f63045d",
+          name: "Product 1",
+          image: null,
+          quantity: null,
+        },
+      },
+      category: null,
+      vendor: null,
     },
   ];
 
-  const rows = ordersData2.slice(0, 100);
+  const [data, setData] = useFetchData(
+    defaultData,
+    "/product-items/",
+    "get",
+    {},
+    "Products",
+    transformProductJsonData
+  );
+
+  const [rows, setRows] = useState(data?.results);
+
+  const [current, setCurrent] = useState("All Products");
+  const HEADERS = [
+    { name: "All Products", number: rows?.length ?? 0, data: rows },
+    {
+      name: "Available",
+      number: rows && [...rows.filter((item) => item?.quantity > 0)]?.length,
+      data: rows && [...rows.filter((item) => item?.quantity > 0)],
+    },
+    {
+      name: "Low on stock",
+      number: rows && [...rows.filter((item) => item.quantity <= 20)]?.length,
+      data: rows && [...rows.filter((item) => item.quantity <= 20)],
+    },
+    {
+      name: "Out of stock",
+      number: rows && [...rows.filter((item) => item?.quantity < 1)]?.length,
+      data: rows && [...rows.filter((item) => item?.quantity < 1)],
+    },
+    {
+      name: "Expiring soon",
+      number: rows && [...rows.filter((item) => item?.date)]?.length,
+      data: rows && [...rows.filter((item) => item?.date)],
+    },
+  ];
+
+  useEffect(() => {
+    setRows(data?.results);
+  }, [data]);
+
+  // const rows = ordersData2.slice(0, 100);
 
   const columns = [
-    { field: "date", headerName: "Expiring date", width: 130 },
+    { field: "expiring_date", headerName: "Expiring date", width: 130 },
     {
       field: "product",
       headerName: "PRODUCT NAME",
-      width: 250,
+      width: 180,
       renderCell: renderProductCell,
+    },
+    {
+      field: "size_category",
+      headerName: "Size",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+      valueFormatter: (params) => {
+        if (!params.value) {
+          return "";
+        }
+        return `${params.value?.name?.toLocaleString()}`;
+      },
     },
     {
       field: "id",
@@ -51,21 +282,27 @@ const Stocks = () => {
       align: "center",
     },
     {
-      field: "price",
-      headerName: "AMOUNT",
+      field: "selling_price",
+      headerName: "Selling Price",
       headerAlign: "center",
       align: "center",
       width: 100,
+      valueFormatter: (params) => {
+        if (!params.value) {
+          return "";
+        }
+        return `₦${params.value.toLocaleString()}`;
+      },
     },
     {
-      field: "supply",
+      field: "quantity",
       headerName: "QUANTITY",
       width: 150,
       headerAlign: "center",
       align: "center",
       valueFormatter: (params) => {
         if (!params.value) {
-          return "";
+          return "0 in Stock";
         }
         return `${params.value.toLocaleString()} in Stock`;
       },
@@ -98,9 +335,9 @@ const Stocks = () => {
             Products {current != "All Products" ? `(${current})` : ""}
           </span>
         }
-        btnText={"Add Stock"}
+        headerBtnText={"New Sale"}
         showHeaderBtn={true}
-        headerBtnURL={"/stocks/add1"}
+        headerBtnURL={"/stocks/sale"}
         mainContent={
           <>
             <header className="_flex_jcsb">
@@ -206,3 +443,14 @@ const Wrapper = styled.div`
     }
   }
 `;
+
+function transformProductJsonData(jsonData) {
+  return jsonData?.reverse().map((product) => {
+    return {
+      ...product,
+      status:
+        product?.status ??
+        getRandomValues(["average", "Active", "Re-order point"]),
+    };
+  });
+}

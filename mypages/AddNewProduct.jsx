@@ -27,15 +27,15 @@ const AddNewProduct = () => {
   const axiosInstance = useAxios();
 
   const defaultData = [
-    { name: "Books", id: "i767o878" },
-    { name: "Sprays", id: "jhui9yo77yhg6" },
-    { name: "Snacks", id: "lij8u8yntg" },
-    { name: "Beverages", id: "lh8y89jy8" },
-    { name: "Gadgets", id: "6rgyr8787689" },
-    { name: "Category 1", id: "cat1" },
-    { name: "Category 2", id: "cat2" },
-    { name: "Category 3", id: "cat3" },
-    { name: "Category 4", id: "cat4" },
+    // { name: "Books", id: "i767o878" },
+    // { name: "Sprays", id: "jhui9yo77yhg6" },
+    // { name: "Snacks", id: "lij8u8yntg" },
+    // { name: "Beverages", id: "lh8y89jy8" },
+    // { name: "Gadgets", id: "6rgyr8787689" },
+    // { name: "Category 1", id: "cat1" },
+    // { name: "Category 2", id: "cat2" },
+    // { name: "Category 3", id: "cat3" },
+    // { name: "Category 4", id: "cat4" },
   ];
 
   const [categoriesList, setCategoriesList] = useFetchData(

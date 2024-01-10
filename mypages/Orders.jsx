@@ -475,7 +475,6 @@ const Orders = () => {
     transformJsonData
   );
 
-
   const processing = {
     color: "#3C3E91",
     background: "#3c3e9119",
@@ -502,6 +501,9 @@ const Orders = () => {
   return (
     <Wrapper className="_flex_col _gap20 _full_h">
       <PagesMainLayout
+        headerBtnText={"Restock Product"}
+        showHeaderBtn={true}
+        headerBtnURL={"/stocks/add1"}
         otherHeaderElement={<FilterElement />}
         title={
           <p className="_flex _gap15 _align_center">

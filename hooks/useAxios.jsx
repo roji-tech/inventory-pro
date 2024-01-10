@@ -31,9 +31,9 @@ const useAxios = () => {
         try {
           refreshAccessToken(state?.refresh_token, dispatchFunc, logout);
         } catch (error) {
-          console.warn(error);
+          console.error(error);
           logout();
-          return Promise.reject(error);
+          // return Promise.reject(error);
         }
       } else {
         console.warn(error);

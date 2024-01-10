@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 // import { useRouter } from "next/router";
-// import useAuth from "@contexts/AuthContext";
+import useAuth from "@contexts/AuthContext";
 import styled from "styled-components";
 import useAxios from "@hooks/useAxios";
 import useClickOutside from "@hooks/useClickOutside";
@@ -13,9 +13,9 @@ import { ShowErrors } from "@utils/ShowErrors";
 
 const Navbar = ({ isopen, setIsOpen, hamRef }) => {
   const [count, setCount] = useState(15);
-  // const {  state } = useAuth();
+  const { state } = useAuth();
   // const router = useRouter();
-  const [myuser, setMyuser] = useState({});
+  const [myuser, setMyuser] = useState();
   const myaxios = useAxios();
   const [showNot, setShowNot] = useState(false);
   const notsRef = useRef();
@@ -33,7 +33,11 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
       })
       .catch((error) => {
         console.warn(error, "error");
-        ShowErrors("Logging Out");
+        // ShowErrors("Logging Out");
+
+        if (state?.user) {
+          setMyuser(state?.user);
+        }
       });
   };
 
@@ -48,7 +52,7 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
           <img src={"milo.svg"} alt="" />
         </div>
         <div className="title _flex_col_code">
-          <p>{myuser?.full_name || "Noname"}</p>
+          <p>{myuser?.full_name ?? <small>NoName</small>}</p>
           <small className="_capitalize">
             {myuser?.role || "Role"} @<b>{myuser?.business?.name}</b>
           </small>

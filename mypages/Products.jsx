@@ -1,66 +1,38 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { ordersData2 } from "@mypages/SECT4";
 import {
   renderCategoryCell,
   renderProductCell,
   RenderOptionsCell,
 } from "@mypages/renderCell";
 import MyDataGrid from "@components/datagrid";
-import clsx from "clsx";
 import { FilterElement } from "./FilterElement";
 import PagesMainLayout from "@layouts/PagesMainLayout";
 import { SearchBox } from "./SearchBox";
 // import { memo, useRef } from "react";
 // import { useClickOutside2 } from "@hooks/useClickOutside";
 import Link from "next/link";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import { useFetchData } from "@hooks/useFetchData";
 import { getRandomValues } from "@utils/getRandomStatus";
 import {
   GridRowModes,
-  DataGrid,
-  GridToolbarContainer,
   GridActionsCellItem,
   GridRowEditStopReasons,
+  useGridApiContext,
 } from "@mui/x-data-grid";
-
-import {
-  randomCreatedDate,
-  randomTraderName,
-  randomId,
-  randomArrayItem,
-} from "@mui/x-data-grid-generator";
-
-const roles = ["Market", "Finance", "Development"];
-
-function EditToolbar(props) {
-  const { setRows, setRowModesModel } = props;
-
-  const handleClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
-    }));
-  };
-
-  return (
-    <GridToolbarContainer>
-      {/* <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}> */}
-      Add record
-      {/* </Button> */}
-    </GridToolbarContainer>
-  );
-}
+import * as React from "react";
+import { unstable_useEnhancedEffect as useEnhancedEffect } from "@mui/utils";
+import { fetchDataWithUseAxios } from "@utils/fetchDataWithUseAxios";
+import useAxios from "@hooks/useAxios";
 
 const Products = () => {
+  const myaxios = useAxios();
+  // const [dataList, setDataList] = useState({});
+  // const [loading, setLoading] = useState(false);
+
+  const categories = ["Drugs", "Spray", "Beverages", "Stationeries"];
   const defaultData = [
     {
       id: "b681f500-2012-45fd-908a-40b0e4c4858f",
@@ -102,12 +74,49 @@ const Products = () => {
     "Products",
     transformProductJsonData
   );
+
   const [rows, setRows] = useState(data?.results);
-  // const rows = ordersData2.slice(0, 100);
 
   useEffect(() => {
     setRows(data?.results);
   }, [data]);
+
+  function ProductEditInputCell(props) {
+    const { id, value, field, hasFocus } = props;
+    const apiRef = useGridApiContext();
+    const ref = React.useRef();
+
+    const handleValueChange = (event) => {
+      const newValue = event.target.value;
+      apiRef.current.setEditCellValue({
+        id,
+        field,
+        value: { ...value, name: newValue },
+      });
+    };
+
+    useEnhancedEffect(() => {
+      if (hasFocus && ref.current) {
+        const input = ref.current.querySelector(`input[value="${value}"]`);
+        input?.focus();
+      }
+    }, [hasFocus, value]);
+
+    return (
+      <input
+        ref={ref}
+        type="text"
+        value={value?.name}
+        onChange={handleValueChange}
+        className="_full_wh _lg_text_regular _bg_white"
+        style={{ border: "5px double #00a6ffe8", boxSizing: "border-box" }}
+      />
+    );
+  }
+
+  const renderProductEditInputCell = (params) => {
+    return <ProductEditInputCell {...params} />;
+  };
 
   const columns = [
     {
@@ -121,8 +130,14 @@ const Products = () => {
       field: "product",
       headerName: "PRODUCT NAME",
       width: 250,
-      renderCell: renderProductCell,
       editable: true,
+      renderCell: renderProductCell,
+      renderEditCell: renderProductEditInputCell,
+
+      // valueGetter: getFullName,
+      // valueSetter: setProductName,
+      // valueParser: parseFullName,
+      sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),
     },
     {
       field: "category",
@@ -132,13 +147,13 @@ const Products = () => {
       renderCell: renderCategoryCell,
       editable: true,
       type: "singleSelect",
-      valueOptions: ["Market", "Finance", "Development"],
+      valueOptions: categories,
     },
     {
       field: "quantity",
       headerName: "QUANTITY",
       width: 150,
-      type: 'number',
+      type: "number",
       headerAlign: "center",
       align: "center",
       valueFormatter: (params) => {
@@ -212,14 +227,6 @@ const Products = () => {
     },
   ];
 
-  // const handleEditClick = (id) => {
-  //   console.log(id);
-  // };
-
-  const handleOptionClick = (id) => {
-    console.log(id);
-  };
-
   const [rowModesModel, setRowModesModel] = useState({});
 
   const handleRowEditStop = (params, event) => {
@@ -230,7 +237,6 @@ const Products = () => {
 
   const handleEditClick = (id) => {
     console.log(id);
-    // alert(id);
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
@@ -238,12 +244,7 @@ const Products = () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
-  };
-
   const handleCancelClick = (id) => () => {
-    console.log(id, rows);
     setRowModesModel({
       ...rowModesModel,
       [id]: { mode: GridRowModes.View, ignoreModifications: true },
@@ -258,6 +259,9 @@ const Products = () => {
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    console.log("processRowUpdate", updatedRow);
+
+    fetchDataWithUseAxios(myaxios, `/products/${row?.id}`);
     return updatedRow;
   };
 
@@ -364,12 +368,13 @@ const Products = () => {
                 onRowModesModelChange={handleRowModesModelChange}
                 onRowEditStop={handleRowEditStop}
                 processRowUpdate={processRowUpdate}
-                slots={{
-                  toolbar: EditToolbar,
-                }}
+                // slots={{
+                //   toolbar: EditToolbar,
+                // }}
                 slotProps={{
                   toolbar: { setRows, setRowModesModel },
                 }}
+                editMode="row"
               />
             </section>
           </>
@@ -421,19 +426,19 @@ const Wrapper = styled.div`
 `;
 
 function transformProductJsonData(jsonData) {
-  return jsonData.map((product) => {
+  return jsonData?.reverse().map((product) => {
     const { id, name, image, quantity } = product;
 
     return {
       id,
-      product: { name, icon: image },
+      product: { name, image },
       quantity,
       status:
         product?.status ??
         getRandomValues(["average", "Active", "Re-order point"]),
       category:
         product?.category ??
-        getRandomValues(["Drugs", "Spray", "Beverage", "Stationeries"]),
+        getRandomValues(["Drugs", "Spray", "Beverages", "Stationeries"]),
     };
   });
 }

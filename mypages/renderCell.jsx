@@ -10,7 +10,19 @@ const GridProductCell = memo(function GridProductCell(props) {
     value
   ) : (
     <div className="_flex _align_center">
-      <img className="_bg_white _p5" src={value?.icon} alt="" />
+      <img
+        className="_bg_white _p5"
+        src={value?.image ?? "/milo.svg"}
+        alt=""
+        style={{
+          width: 35,
+          height: 35,
+
+          borderRadius: 4,
+          background: "#fff",
+          boxShadow: "0 1px 10px 0 rgba(0, 0, 0, 0.1)",
+        }}
+      />
       <span>{value?.name}</span>
     </div>
   );
@@ -330,7 +342,6 @@ const OptionsCellStyles = styled.div`
 
         color: rgba(1, 12, 21, 0.7);
 
-        
         font-size: 14px;
         font-style: normal;
         font-weight: 600;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchDataWithUseAxios } from "@utils/fetchDataWithUseAxios";
 import useAxios from "@hooks/useAxios";
-import { ShowErrors } from "@utils/ShowErrors";
+// import { ShowErrors } from "@utils/ShowErrors";
 
 export function useFetchData(
   defaultData,

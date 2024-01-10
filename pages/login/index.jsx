@@ -20,6 +20,7 @@ import { useRouter } from "next/router";
 // import { PulseLoader } from "react-spinners";
 
 import { ShowSuccess } from "@utils/ShowSuccess";
+import Link from "next/link";
 
 const defaultTheme = createTheme();
 
@@ -224,6 +225,22 @@ export default function SignInSide() {
                   Sign In
                 </Button>
               </Box>
+
+              <div className="_flex_jce">
+                <Link
+                  style={{
+                    color: "var(--INVBlue)",
+                    opacity: 0.9,
+                    fontWeight: 500,
+                    scale: "1.2 1",
+                    paddingTop: "40px",
+                    transformOrigin: "100% 0",
+                  }}
+                  href={"/signup"}
+                >
+                  Register
+                </Link>
+              </div>
             </Box>
           </div>
         </Grid>

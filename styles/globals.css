@@ -987,7 +987,7 @@ button {
   line-height: 18px;
 }
 
-.sub_heading_3 {
+._sub_heading_3 {
   color: var(--Heading-color, #010c15);
 
   /* Sub heading 3 */

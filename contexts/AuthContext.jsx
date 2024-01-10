@@ -3,11 +3,13 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { initialState, authReducer, typ } from "@reducers/AuthReducer";
 import { api } from "@config";
-import { ShowErrors } from "@utils/ShowErrors";
+// import { ShowErrors } from "@utils/ShowErrors";
 
 const AuthContext = createContext({
   state: {
-    user: {},
+    user: globalThis?.localStorage?.getItem("user")
+      ? JSON.parse(globalThis?.localStorage?.getItem("user"))
+      : {},
     access_token: "",
     refresh_token: "",
   },
