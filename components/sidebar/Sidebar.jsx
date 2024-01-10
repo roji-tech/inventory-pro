@@ -15,6 +15,7 @@ const Sidebar = () => {
     { name: "Overview", link: "", icon: "overview.svg" },
     { name: "Products", link: "products", icon: "products.svg" },
     { name: "Stocks", link: "stocks", icon: "stocks.svg" },
+    { name: "Sales", link: "sales", icon: "sales.svg" },
     { name: "Orders", link: "orders", icon: "orders.svg" },
     { name: "Analysis", link: "analysis", icon: "analysis.svg" },
     { name: "Vendors", link: "vendors", icon: "vendors.svg" },
@@ -28,7 +29,7 @@ const Sidebar = () => {
     <Container>
       <div className="main _auto_scroll_y">
         <section>
-          {LINK_LIST.splice(0, 7).map((item) => (
+          {LINK_LIST.splice(0, 8).map((item) => (
             <li
               key={item.name}
               onClick={() => navFunc(item.link)}

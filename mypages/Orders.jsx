@@ -744,7 +744,7 @@ const Wrapper = styled.div`
         background: #fff;
 
         /* Shadow/Shadow__XSmall */
-        box-shadow: 0px 1px 1px -0.5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 1px 5px -1px rgba(0, 0, 0, 0.2);
 
         .orderStatus {
           display: flex;

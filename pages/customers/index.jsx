@@ -1,10 +1,10 @@
 import GeneralLayout from "@layouts/GeneralLayout";
-import Stocks_ from "@mypages/stocks/Stocks";
+import Customers_ from "@mypages/customers/Customers";
 
-export default function Stocks() {
+export default function Customers() {
   return (
     <GeneralLayout>
-      <Stocks_ />
+      <Customers_ />
     </GeneralLayout>
   );
 }

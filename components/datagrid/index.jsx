@@ -96,7 +96,6 @@ const MyDataGridStyles = styled(DataGrid)`
         border-color: transparent !important;
       }
     } */
-
     .Mui-checked {
     }
 
@@ -133,6 +132,7 @@ const MyDataGridStyles = styled(DataGrid)`
 
       .MuiDataGrid-columnHeaderTitle {
         color: var(--Paragraph-color, rgba(1, 12, 21, 0.7)) !important;
+        text-transform: uppercase;
 
         /* H6 */
         font-size: 12px !important;
