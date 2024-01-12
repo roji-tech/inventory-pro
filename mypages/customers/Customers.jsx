@@ -159,7 +159,6 @@ const Customers = () => {
                   pagination: { paginationModel: { pageSize: 10 } },
                 }}
                 pageSizeOptions={[5, 10, 15, 20, 25]}
-                checkboxSelection
                 disableRowSelectionOnClick
               />
             </section>

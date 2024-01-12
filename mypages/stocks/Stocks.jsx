@@ -337,7 +337,7 @@ const Stocks = () => {
         }
         headerBtnText={"New Sale"}
         showHeaderBtn={true}
-        headerBtnURL={"/stocks/sale"}
+        headerBtnURL={"/sales/add"}
         mainContent={
           <>
             <header className="_flex_jcsb">

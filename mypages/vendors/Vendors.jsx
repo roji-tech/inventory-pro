@@ -4,18 +4,15 @@ import MyDataGrid from "@components/datagrid";
 import PagesMainLayout from "@layouts/PagesMainLayout";
 // import { memo, useRef } from "react";
 // import { useClickOutside2 } from "@hooks/useClickOutside";
-import Link from "next/link";
 import { useFetchData } from "@hooks/useFetchData";
 import { getRandomValues } from "@utils/getRandomStatus";
 import { useGridApiContext } from "@mui/x-data-grid";
 import * as React from "react";
 import { unstable_useEnhancedEffect as useEnhancedEffect } from "@mui/utils";
-import useAxios from "@hooks/useAxios";
 import { FilterElement } from "@mypages/FilterElement";
 import { SearchBox } from "@mypages/SearchBox";
 
 const Vendors = () => {
-  const myaxios = useAxios();
   // const [dataList, setDataList] = useState({});
   // const [loading, setLoading] = useState(false);
 
@@ -212,7 +209,6 @@ const Vendors = () => {
                   pagination: { paginationModel: { pageSize: 10 } },
                 }}
                 pageSizeOptions={[5, 10, 15, 20, 25]}
-                checkboxSelection
                 disableRowSelectionOnClick
               />
             </section>

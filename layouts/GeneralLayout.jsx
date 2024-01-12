@@ -1,17 +1,26 @@
 import Navbar from "@components/navbar/Navbar";
 import Sidebar from "@components/sidebar/Sidebar";
+import useAuth from "@contexts/AuthContext";
 import useClickOutside from "@hooks/useClickOutside";
-import { useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { useLayoutEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 const GeneralLayout = ({ children }) => {
   const [isopen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  const { state } = useAuth();
 
   const sideBarRef = useRef();
   const hamRef = useRef();
   const toggleSidebar = () => setIsOpen(false);
 
   useClickOutside(sideBarRef, hamRef, toggleSidebar, isopen);
+
+  useLayoutEffect(() => {
+    if (!state?.access_token & !state?.refresh_token) router.replace("/login");
+  }, []);
 
   return (
     <GeneralLayoutStyles isopen={isopen}>

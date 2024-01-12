@@ -14,6 +14,7 @@ const AddProductLayout = ({
   showNextBtn = true,
   showPageNumber = true,
   firstPage = true,
+  BtnElement = <div />,
 }) => {
   return (
     <Wrapper className="_flex_col _full_h">
@@ -56,7 +57,7 @@ const AddProductLayout = ({
           </div>
           <InputsElememt LIST={INPUTS_LIST} extras={otherInputFields} />
         </div>
-        {showNextBtn && (
+        {showNextBtn ? (
           <div className="nextBtnDiv">
             <button>
               <Link href={nextURL} className="_grid_center _full_wh">
@@ -64,6 +65,8 @@ const AddProductLayout = ({
               </Link>
             </button>
           </div>
+        ) : (
+          <>{BtnElement}</>
         )}
       </section>
     </Wrapper>
@@ -78,7 +81,7 @@ const Wrapper = styled.div`
       height: 55px;
 
       color: #666;
-      
+
       font-size: 24px;
       font-style: normal;
       font-weight: 400;
@@ -86,7 +89,7 @@ const Wrapper = styled.div`
 
       p {
         color: #5d5d5d;
-        
+
         font-size: 24px;
         font-style: normal;
         font-weight: 400;
@@ -104,7 +107,6 @@ const Wrapper = styled.div`
 
         color: var(--White, #fff);
 
-        
         font-size: 14px;
         font-style: normal;
         font-weight: 600;
@@ -180,7 +182,6 @@ const Wrapper = styled.div`
             &::placeholder {
               color: rgba(1, 12, 21, 0.2);
 
-              
               font-size: 14px;
               font-style: normal;
               font-weight: 400;
@@ -203,7 +204,7 @@ const Wrapper = styled.div`
           background: #002cca;
 
           color: #fff;
-          
+
           font-size: 24px;
           font-style: normal;
           font-weight: 600;

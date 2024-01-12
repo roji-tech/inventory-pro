@@ -1,4 +1,4 @@
-import { StockBox1 } from "./StockBox1";
+import { AddPageBox1 } from "../AddPageBox1";
 import AddProductLayout from "@layouts/AddProductLayout";
 
 const AddStock = () => {
@@ -27,7 +27,7 @@ const AddStock = () => {
       inputsTitle={"Product Details"}
       backURL="/stocks"
       nextURL="/stocks/add2"
-      popup={<StockBox1 showPID={true} />}
+      popup={<AddPageBox1 showPID={true} />}
       INPUTS_LIST={INPUT_LIST}
     />
   );

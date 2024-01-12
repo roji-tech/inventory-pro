@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 
 const AddNewProduct = () => {
   const { state } = useAuth();
- const router = useRouter()
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
@@ -24,7 +24,7 @@ const AddNewProduct = () => {
     email: state?.user?.email,
   });
 
-  const axiosInstance = useAxios();
+  const myaxios = useAxios();
 
   const defaultData = [
     // { name: "Books", id: "i767o878" },
@@ -57,7 +57,7 @@ const AddNewProduct = () => {
     }
     ShowSuccess("Creating Product");
     await fetchDataWithUseAxios(
-      axiosInstance,
+      myaxios,
       "/products/",
       "post",
       values,
@@ -66,7 +66,7 @@ const AddNewProduct = () => {
     )
       .then(() => {
         alert("done");
-        router.push("/products")
+        router.push("/products");
       })
       .catch((error) => {
         console.warn(error);
@@ -108,9 +108,7 @@ const AddNewProduct = () => {
         mainContent={
           <section className="contentSection _flex1 _flex_col _gap30 _p30">
             <div className="inputsBox _flex1 _flex_col _gap30">
-              <h2>
-                Product Details {values?.name} {values?.category}
-              </h2>
+              <h2>Product Details</h2>
               <InputsElememt
                 extras={
                   <>

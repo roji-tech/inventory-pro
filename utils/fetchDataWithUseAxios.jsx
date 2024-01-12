@@ -6,7 +6,7 @@ export const fetchDataWithUseAxios = async (
   url,
   method = "get",
   data = {},
-  label = "",
+  error_message = "",
   setLoading = (bool) => {}
 ) => {
   const config = { method, url, data };
@@ -18,7 +18,7 @@ export const fetchDataWithUseAxios = async (
     return response?.data;
   } catch (error) {
     console.warn("fetchDataWithUseAxios", error?.response);
-    ShowErrors("Unable to fetch " + label);
+    if (error_message) ShowErrors(error_message);
     return Promise.reject(error);
   } finally {
     setLoading(false);

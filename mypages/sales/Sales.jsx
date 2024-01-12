@@ -348,10 +348,10 @@ const Sales = () => {
   return (
     <Wrapper className="_flex_col _gap20 _full_h">
       <PagesMainLayout
-        title={<span className="bolder">Vendors</span>}
+        title={<span className="bolder">Sales</span>}
         showHeaderBtn={true}
-        headerBtnText="Add New Vendor"
-        headerBtnURL="/vendors/add"
+        headerBtnText="New Sale"
+        headerBtnURL="/sales/add"
         mainContent={
           <>
             <header className="contentHeader _flex_jcsb _align_center">
@@ -366,60 +366,12 @@ const Sales = () => {
                 height={"100%"}
                 rows={rows}
                 columns={columns}
-                customStyles={`
-                    .actions {
-                      overflow: visible !important;
-                    }
-                    .status {                
-                      .MuiDataGrid-cellContent {
-                        padding: 3px 8px !important;
-                        border: 0  !important;
-                        border-radius: 8px;
-      
-                        display: grid;
-                        place-items: center;
-                        
-                        text-align: center !important;
-                        text-transform: capitalize;
-      
-                        height: 28px;
-                        width: max-content;
-      
-                        font-size: 12px;
-                        font-style: normal;
-                        font-weight: 400;
-                        line-height: normal;
-                      }
-                    }
-      
-                    .status.active {                
-                      .MuiDataGrid-cellContent {
-                        color: #519C66;
-                        background: rgba(50, 147, 111, 0.16);
-                      }
-                    }
-                    
-                    .status.re_order {
-                      .MuiDataGrid-cellContent {
-                        background: rgba(245, 126, 119, 0.16);
-                        color #CC5F5F;
-                      }
-                    }
-      
-                    .status.average {
-                      .MuiDataGrid-cellContent {
-                        background: #5570f128;
-                        color: #5570F1;
-                      }
-                    }
-                  `}
                 initialState={{
                   rows: rows?.results,
                   columns,
                   pagination: { paginationModel: { pageSize: 10 } },
                 }}
                 pageSizeOptions={[5, 10, 15, 20, 25]}
-                checkboxSelection
                 disableRowSelectionOnClick
               />
             </section>
