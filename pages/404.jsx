@@ -19,7 +19,11 @@ export default function Error() {
             <Typography variant="h6">
               The page you’re looking for doesn’t exist.
             </Typography>
-            <Button variant="contained">Back Home</Button>
+            <Button variant="contained">
+              <Link href={"/"} className="_full_wh">
+                Back Home
+              </Link>
+            </Button>
           </Grid>
           <Grid xs={6}>
             <img
