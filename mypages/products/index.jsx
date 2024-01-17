@@ -79,6 +79,15 @@ const Products = () => {
 
   const [rows, setRows] = useState(data?.results);
 
+  const [categoriesList, setCategoriesList] = useFetchData(
+    defaultData,
+    "/categories/",
+    "get",
+    {},
+    "Categories",
+    transformCatData
+  );
+
   useEffect(() => {
     setRows(data?.results);
   }, [data]);
@@ -142,14 +151,14 @@ const Products = () => {
       sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),
     },
     {
-      field: "category",
+      field: "name",
       headerName: "CATEGORY",
       width: 150,
       align: "left",
       renderCell: renderCategoryCell,
       editable: true,
       type: "singleSelect",
-      valueOptions: categories,
+      valueOptions: categoriesList.results,
     },
     {
       field: "quantity",
@@ -280,7 +289,7 @@ const Products = () => {
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     console.log("processRowUpdate", updatedRow);
 
-    fetchDataWithUseAxios(myaxios, `/products/${row?.id}`);
+    fetchDataWithUseAxios(myaxios, `/products/${newRow?.id}`);
     return updatedRow;
   };
 
@@ -469,5 +478,14 @@ function transformProductJsonData(jsonData) {
         product?.category ??
         getRandomValues(["Drugs", "Spray", "Beverages", "Stationeries"]),
     };
+  });
+}
+
+function transformCatData(jsonData) {
+  console.log("JSON DATA", jsonData);
+  return jsonData.map((item) => {
+    const { name, id } = item;
+
+    return { name, value: id };
   });
 }

@@ -43,8 +43,16 @@ const GridCategoryCell = memo(function GridProductCell(props) {
   );
 });
 
-export function renderCategoryCell(params) {
-  return <GridCategoryCell value={params.value || ""} />;
+export function renderCategoryCell(params, list = []) {
+  return (
+    <GridCategoryCell
+      value={
+        !list
+          ? params?.value
+          : list?.find((item) => item?.value == params?.value)?.name || ""
+      }
+    />
+  );
 }
 
 export const RatingElement = ({
