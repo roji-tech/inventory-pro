@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import PagesMainLayout from "@layouts/PagesMainLayout";
 
-import { FilterElement } from "./FilterElement";
+import { FilterElement } from "../FilterElement";
 import { useFetchData } from "@hooks/useFetchData";
 import { getRandomValues } from "@utils/getRandomStatus";
 
@@ -501,9 +501,9 @@ const Orders = () => {
   return (
     <Wrapper className="_flex_col _gap20 _full_h">
       <PagesMainLayout
-        headerBtnText={"Restock Product"}
+        headerBtnText={"New Order"}
         showHeaderBtn={true}
-        headerBtnURL={"/stocks/add1"}
+        headerBtnURL={"/orders/new"}
         otherHeaderElement={<FilterElement />}
         title={
           <p className="_flex _gap15 _align_center">

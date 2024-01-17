@@ -139,7 +139,7 @@ const SingleProduct = () => {
               </div>
             </header>
 
-            <section className="_flex _flex1">
+            <section className="productInfos _flex _flex1">
               <div className="image">
                 <img src="/book.png" width={"100%"} alt="" />
               </div>
@@ -281,7 +281,7 @@ const SingleProduct = () => {
                 </div>
               </div>
             </section>
-            <div className="attach" style={{ paddingLeft: "30%" }}>
+            <div className="attachment">
               <div className="_flex_col _gap15">
                 <h2 className="_sub_heading_3">Attachments</h2>
                 <div
@@ -355,7 +355,7 @@ const Wrapper = styled.div`
         }
       }
 
-      > section {
+      .productInfos {
         > .image {
           width: 30%;
         }
@@ -382,6 +382,32 @@ const Wrapper = styled.div`
             margin-top: 25px;
             margin-bottom: 10px;
           }
+        }
+
+        @media screen and (max-width: 1200px) {
+          outline: 5px solid greenyellow;
+          flex-wrap: wrap;
+          gap: 50px;
+          margin-bottom: 30px;
+
+          > .image {
+            width: 100%;
+
+            img {
+              width: min(500px, 90%);
+            }
+
+            display: flex;
+            justify-content: center;
+          }
+        }
+      }
+
+      .attachment {
+        padding-left: 30%;
+
+        @media screen and (max-width: 1200px) {
+          padding-left: 0%;
         }
       }
     }

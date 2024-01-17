@@ -56,8 +56,8 @@ const Vendors = () => {
     "/vendors/",
     "get",
     {},
-    "Vendors"
-    // transformProductJsonData
+    "Vendors",
+    (list) => list?.reverse() ?? list
   );
 
   const [rows, setRows] = useState(data?.results);

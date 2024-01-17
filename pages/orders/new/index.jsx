@@ -1,10 +1,10 @@
 import GeneralLayout from "@layouts/GeneralLayout";
-import Orders_ from "@mypages/Orders";
+import NewOrder from "@mypages/orders/NewOrder";
 
 export default function Orders() {
   return (
     <GeneralLayout>
-      <Orders_ />
+      <NewOrder />
     </GeneralLayout>
   );
 }

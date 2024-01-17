@@ -9,19 +9,26 @@ import { useFetchData } from "@hooks/useFetchData";
 import useAuth from "@contexts/AuthContext";
 import styled from "styled-components";
 import PagesMainLayout from "@layouts/PagesMainLayout";
-import { InputsElememt, InputBox, SelectBox } from "@mypages/InputsElememt";
-import { getRandomValues } from "@utils/getRandomStatus";
+import MenuItem from "@mui/material/MenuItem";
+import dayjs from "dayjs";
+import {
+  InputsElememt,
+  InputBox,
+  SelectBox,
+  DateBox,
+} from "@mypages/InputsElememt";
 
 const AddSales = () => {
   const { state } = useAuth();
   const router = useRouter();
-  const customerRef = useRef();
+  const { pid } = router.query;
+  const vendorRef = useRef();
+  const dateRef = useRef();
 
   const [productItems, setProductItems] = useState([
-    { product_item: "", quantity: 1 },
+    { product_item: "", qty_ordered: 1 },
   ]);
 
-  // const [productItems, setProductItems] = useState([{ name: "", age: "" }]);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event, index) => {
@@ -31,13 +38,19 @@ const AddSales = () => {
     setProductItems(() => data);
   };
 
-  const handleCategoryChange = (event) => {
-    customerRef.current.value = event.target.value;
+  const handleDateChange = (value) => {
+    console.log(value);
+    dateRef.current = value;
+  };
+
+  const handleVendorChange = (event) => {
+    console.log(event.target.value);
+    vendorRef.current = event.target.value;
   };
 
   const increment = () => {
     console.log(productItems);
-    let newfield = { product_item: "", quantity: 1 };
+    let newfield = { product_item: "", qty_ordered: 1 };
     setProductItems([...productItems, newfield]);
   };
 
@@ -121,16 +134,16 @@ const AddSales = () => {
     },
   ];
 
-  const [customersList, setCustomersList] = useFetchData(
+  const [vendorsList, setVendorsList] = useFetchData(
     defaultData,
-    "/customers/",
+    "/vendors/",
     "get",
     {},
-    "Error Fetching Customers",
-    transformCatData
+    "Error Fetching Vendors",
+    transformVendorsData
   );
   const [productItemsList, setProductItemsList] = useFetchData(
-    defaultData,
+    [],
     "/product-items/",
     "get",
     {},
@@ -142,13 +155,19 @@ const AddSales = () => {
     e.preventDefault();
 
     const data = {
-      customer: customerRef.current.value,
-      sale_items: [...productItems],
+      vendor: vendorRef.current,
+      expected_receipt_date: dayjs(dateRef.current).toISOString().split("T")[0],
+      order_items: productItems.filter((item) => item.product_item != ""),
     };
     console.log(data);
 
-    if (!data?.customer) {
-      ShowErrors("Choose Customer");
+    if (!data?.vendor) {
+      ShowErrors("Choose Vendor");
+      return;
+    }
+
+    if (!data?.expected_receipt_date) {
+      ShowErrors("Choose a date");
       return;
     }
 
@@ -156,14 +175,14 @@ const AddSales = () => {
 
     await fetchDataWithUseAxios(
       myaxios,
-      "/sales/",
+      "/orders/",
       "post",
       data,
-      "Sales Creation Failed",
+      "Order Creation Failed",
       setLoading
     )
       .then(() => {
-        router.push("/sales");
+        router.push("/orders");
       })
       .catch((error) => {
         console.log("login error", error?.response);
@@ -180,19 +199,19 @@ const AddSales = () => {
           );
         } catch (err) {
           console.log(err);
-          return ShowErrors("An Error Occurred");
+          return;
+          // ShowErrors("An Error Occurred");
         }
       });
   };
 
-  const CUSTOMER_INPUT = {
-    name: "Customers",
-    id: "customers",
+  const VENDOR_INPUT = {
+    name: "Vendors",
+    id: "vendors",
     ph: "John Doe",
-    handleChange: handleCategoryChange,
+    handleChange: handleVendorChange,
     // value: values?.category,
-    options: customersList?.results,
-    ref: customerRef,
+    options: vendorsList?.results,
   };
 
   const PRODUCT_ITEM_INPUT = {
@@ -201,22 +220,56 @@ const AddSales = () => {
     ph: "Product Item 1",
     hideTitle: true,
     // value: values?.category,
-    options: productItemsList?.results,
+    // options: [...productItemsList?.results],
+    options: [...(productItemsList?.results ?? [])].filter(
+      (item) => item?.product?.id == pid
+    ),
   };
+
+  // useEffect(() => {
+  //   if (pid) {
+  //     let data = [...productItems];
+  //     data[0].product_item = pid;
+  //     setProductItems(() => data);
+  //   }
+  // }, [pid]);
 
   return (
     <Wrapper className="_flex_col _gap20 _full_h">
       <PagesMainLayout
         title={
           <span className="bolder">
-            Sales {" >> "} <span> Add New Sale</span>
+            Order {" >> "} <span>New Order </span>
           </span>
         }
         mainContent={
           <section className="contentSection _flex1 _flex_col _gap30 _p30">
             <div className="inputsBox _flex1 _flex_col _gap30">
-              <h2>Product Details</h2>
-              <InputsElememt extras={<SelectBox item={CUSTOMER_INPUT} />} />
+              <h2>Order Details</h2>
+              <InputsElememt
+                extras={
+                  <>
+                    <SelectBox
+                      item={VENDOR_INPUT}
+                      defaultMenuItem={
+                        pid ? (
+                          <MenuItem value={pid}>
+                            <em>Menu data</em>
+                          </MenuItem>
+                        ) : null
+                      }
+                    />
+                    <DateBox
+                      item={{
+                        name: "Expected Receipt Date",
+                        id: "expected_receipt_date",
+                        ph: "Select date",
+                        handleChange: handleDateChange,
+                      }}
+                    />
+                  </>
+                }
+              />
 
               <div className="_flex_col _gap10" style={{}}>
                 {productItems.map((item, index) => (
@@ -253,7 +306,7 @@ const AddSales = () => {
                       type="number"
                       onChange={(e) => handleChange(e, index)}
                       className="_bg_white _dark _h5 _box_shadow_light _p20"
-                      value={item.quantity}
+                      value={item.qty_ordered}
                       style={{
                         width: 150,
                       }}
@@ -342,8 +395,8 @@ const Wrapper = styled.div`
   }
 `;
 
-function transformCatData(jsonData) {
-  console.log("JSON DATA", jsonData);
+function transformVendorsData(jsonData) {
+  console.log("JSON DATA Vendor", jsonData);
   return jsonData.map((item) => {
     const { name, id, email } = item;
 

@@ -48,7 +48,7 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
   return (
     <Container>
       <div className="profile _flex _gap20">
-        <div className="avatar_circle _grid_center">
+        <div className="avatar_circle _grid_center"> 
           <img src={"milo.svg"} alt="" />
         </div>
         <div className="title _flex_col_code">

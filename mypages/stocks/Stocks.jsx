@@ -335,9 +335,9 @@ const Stocks = () => {
             Products {current != "All Products" ? `(${current})` : ""}
           </span>
         }
-        headerBtnText={"New Sale"}
+        headerBtnText={"ReStock Products"}
         showHeaderBtn={true}
-        headerBtnURL={"/sales/add"}
+        headerBtnURL={"/orders/new"}
         mainContent={
           <>
             <header className="_flex_jcsb">

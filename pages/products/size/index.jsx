@@ -1,11 +1,10 @@
 import GeneralLayout from "@layouts/GeneralLayout";
-import Products_ from "@mypages/Products";
-import SingleProduct from "@mypages/SingleProduct";
+import ProductSize from "@mypages/products/productSize";
 
 export default function Products() {
   return (
     <GeneralLayout>
-      <SingleProduct />
+      <ProductSize />
     </GeneralLayout>
   );
 }

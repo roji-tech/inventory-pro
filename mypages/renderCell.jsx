@@ -118,7 +118,7 @@ export const DotElement = ({ value, color }) => {
 };
 
 export const RenderOptionsCell = memo(function GridProductCell(props) {
-  const { id } = props;
+  const { id, handleEditClick, handleDeleteClick, router } = props;
   const optionsRef = useRef();
   const optionsMenuRef = useRef();
 
@@ -157,7 +157,7 @@ export const RenderOptionsCell = memo(function GridProductCell(props) {
           </defs>
         </svg>
       ),
-      action: "",
+      action: () => router.push(`/products/single/${id}`),
     },
     {
       name: "edit",
@@ -183,10 +183,10 @@ export const RenderOptionsCell = memo(function GridProductCell(props) {
           </defs>
         </svg>
       ),
-      action: "",
+      action: handleEditClick,
     },
     {
-      name: "dispense",
+      name: "New Size",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -209,34 +209,34 @@ export const RenderOptionsCell = memo(function GridProductCell(props) {
           </defs>
         </svg>
       ),
-      action: "",
+      action: () => router.push(`/products/size/${id}`),
     },
-    {
-      name: "restock",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-        >
-          <g clipPath="url(#clip0_155_3766)">
-            <path
-              d="M7.33366 6H8.66699V4H10.667V2.66666H8.66699V0.666664H7.33366V2.66666H5.33366V4H7.33366V6ZM4.66699 12C3.93366 12 3.34033 12.6 3.34033 13.3333C3.34033 14.0667 3.93366 14.6667 4.66699 14.6667C5.40033 14.6667 6.00033 14.0667 6.00033 13.3333C6.00033 12.6 5.40033 12 4.66699 12ZM11.3337 12C10.6003 12 10.007 12.6 10.007 13.3333C10.007 14.0667 10.6003 14.6667 11.3337 14.6667C12.067 14.6667 12.667 14.0667 12.667 13.3333C12.667 12.6 12.067 12 11.3337 12ZM5.40033 8.66666H10.367C10.867 8.66666 11.307 8.39333 11.5337 7.98L14.107 3.30666L12.947 2.66666L10.367 7.33333H5.68699L2.84699 1.33333H0.666992V2.66666H2.00033L4.40033 7.72666L3.50033 9.35333C3.01366 10.2467 3.65366 11.3333 4.66699 11.3333H12.667V10H4.66699L5.40033 8.66666Z"
-              fill="#010C15"
-              fillOpacity="0.7"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0_155_3766">
-              <rect width="16" height="16" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
-      ),
-      action: "",
-    },
+    // {
+    //   name: "New Size",
+    //   icon: (
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       width="16"
+    //       height="16"
+    //       viewBox="0 0 16 16"
+    //       fill="none"
+    //     >
+    //       <g clipPath="url(#clip0_155_3766)">
+    //         <path
+    //           d="M7.33366 6H8.66699V4H10.667V2.66666H8.66699V0.666664H7.33366V2.66666H5.33366V4H7.33366V6ZM4.66699 12C3.93366 12 3.34033 12.6 3.34033 13.3333C3.34033 14.0667 3.93366 14.6667 4.66699 14.6667C5.40033 14.6667 6.00033 14.0667 6.00033 13.3333C6.00033 12.6 5.40033 12 4.66699 12ZM11.3337 12C10.6003 12 10.007 12.6 10.007 13.3333C10.007 14.0667 10.6003 14.6667 11.3337 14.6667C12.067 14.6667 12.667 14.0667 12.667 13.3333C12.667 12.6 12.067 12 11.3337 12ZM5.40033 8.66666H10.367C10.867 8.66666 11.307 8.39333 11.5337 7.98L14.107 3.30666L12.947 2.66666L10.367 7.33333H5.68699L2.84699 1.33333H0.666992V2.66666H2.00033L4.40033 7.72666L3.50033 9.35333C3.01366 10.2467 3.65366 11.3333 4.66699 11.3333H12.667V10H4.66699L5.40033 8.66666Z"
+    //           fill="#010C15"
+    //           fillOpacity="0.7"
+    //         />
+    //       </g>
+    //       <defs>
+    //         <clipPath id="clip0_155_3766">
+    //           <rect width="16" height="16" fill="white" />
+    //         </clipPath>
+    //       </defs>
+    //     </svg>
+    //   ),
+    //   action: () => router.push(`/products/size/${id}`),
+    // },
     {
       name: "discard",
       icon: (
@@ -261,9 +261,14 @@ export const RenderOptionsCell = memo(function GridProductCell(props) {
           </defs>
         </svg>
       ),
-      action: "",
+      action: handleDeleteClick,
     },
   ];
+
+  const handleFunc = (func) => {
+    func(id);
+    handleClose();
+  };
 
   return (
     <OptionsCellStyles className="actionIcon _pointer _p5 _grid_center">
@@ -292,7 +297,11 @@ export const RenderOptionsCell = memo(function GridProductCell(props) {
 
       <div ref={optionsMenuRef} className="actionOptions">
         {OPTIONS.map((item, i) => (
-          <div key={i} className="option _flex _align_center">
+          <div
+            key={i}
+            onClick={() => handleFunc(item?.action)}
+            className="option _flex _align_center"
+          >
             <span className="_grid_center">{item?.icon}</span>
             <span className="_grid_center _capitalize">{item?.name}</span>
           </div>

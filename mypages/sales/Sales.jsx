@@ -267,8 +267,8 @@ const Sales = () => {
     "/sales/",
     "get",
     {},
-    "Sales"
-    // transformProductJsonData
+    "Sales",
+    (list) => list?.reverse() ?? list
   );
 
   const [rows, setRows] = useState(data?.results);

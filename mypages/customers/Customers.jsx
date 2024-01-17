@@ -55,14 +55,15 @@ const Customers = () => {
     "/customers/",
     "get",
     {},
-    "Customers"
+    "Customers",
+    (list) => list?.reverse() ?? list
   );
 
   const [rows, setRows] = useState(data?.results);
 
   useEffect(() => {
     setRows(data?.results);
-    console.error("vendors", data);
+    console.error("Customers", data);
   }, [data]);
 
   const columns = [

@@ -26,7 +26,7 @@ const useAxios = () => {
     // Do something with response error
     async (error) => {
       console.log(`==ERROR ${error?.response?.status} IN INTERCEPTOR=`);
-      console.log(error?.response?.headers);
+      console.log(error);
       if (error?.response?.status === 401) {
         try {
           refreshAccessToken(state?.refresh_token, dispatchFunc, logout);

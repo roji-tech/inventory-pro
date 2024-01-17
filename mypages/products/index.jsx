@@ -6,9 +6,9 @@ import {
   RenderOptionsCell,
 } from "@mypages/renderCell";
 import MyDataGrid from "@components/datagrid";
-import { FilterElement } from "./FilterElement";
+import { FilterElement } from "../FilterElement";
 import PagesMainLayout from "@layouts/PagesMainLayout";
-import { SearchBox } from "./SearchBox";
+import { SearchBox } from "../SearchBox";
 // import { memo, useRef } from "react";
 // import { useClickOutside2 } from "@hooks/useClickOutside";
 import Link from "next/link";
@@ -26,11 +26,13 @@ import * as React from "react";
 import { unstable_useEnhancedEffect as useEnhancedEffect } from "@mui/utils";
 import { fetchDataWithUseAxios } from "@utils/fetchDataWithUseAxios";
 import useAxios from "@hooks/useAxios";
+import { useRouter } from "next/router";
 
 const Products = () => {
   const myaxios = useAxios();
   // const [dataList, setDataList] = useState({});
   // const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const categories = ["Drugs", "Spray", "Beverages", "Stationeries"];
   const defaultData = [
@@ -220,7 +222,12 @@ const Products = () => {
                 </svg>
               </div>
             )}
-            <RenderOptionsCell id={id} />
+            <RenderOptionsCell
+              router={router}
+              handleEditClick={handleEditClick}
+              handleDeleteClick={handleDeleteClick}
+              id={id}
+            />
           </div>,
         ];
       },
@@ -238,6 +245,18 @@ const Products = () => {
   const handleEditClick = (id) => {
     console.log(id);
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleDeleteClick = (id) => {
+    console.log("delete_id", id);
+    setRows(rows.filter((row) => row.id !== id));
+    fetchDataWithUseAxios(
+      myaxios,
+      `/products/${id}`,
+      "delete",
+      {},
+      "Product Failed to delete"
+    );
   };
 
   const handleSaveClick = (id) => () => {
@@ -377,6 +396,16 @@ const Products = () => {
                 editMode="row"
               />
             </section>
+          </>
+        }
+        otherHeaderElement={
+          <>
+            <button className="headerBtn _flex_center">
+              <Link href={"/products/sizes"} className="_full_wh _flex_center">
+                <img src="/add.svg" alt="" />
+                <span>View Size Categories</span>
+              </Link>
+            </button>
           </>
         }
       />

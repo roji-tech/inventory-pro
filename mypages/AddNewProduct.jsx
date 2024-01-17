@@ -65,7 +65,7 @@ const AddNewProduct = () => {
       setLoading
     )
       .then(() => {
-        alert("done");
+        // alert("done");
         router.push("/products");
       })
       .catch((error) => {

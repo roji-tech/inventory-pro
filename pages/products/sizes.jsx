@@ -1,10 +1,10 @@
 import GeneralLayout from "@layouts/GeneralLayout";
-import Products_ from "@mypages/products";
+import SizeCategories from "@mypages/products/SizeCategories";
 
 export default function Products() {
   return (
     <GeneralLayout>
-      <Products_ />
+      <SizeCategories />
     </GeneralLayout>
   );
 }

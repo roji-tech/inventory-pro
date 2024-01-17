@@ -13,12 +13,13 @@ export const fetchDataWithUseAxios = async (
   try {
     setLoading(true);
     const response = await axiosInstance(config);
-    console.warn("fetchDataWithUseAxios", response?.data);
-    // ShowSuccess("Successful");
+    // ShowSuccess("Successful" + url);
+    console.warn("fetchDataWithUseAxios" + " " + url, response?.data);
     return response?.data;
   } catch (error) {
+    console.warn("fetchDataWithUseAxios Error " + url, error);
     console.warn("fetchDataWithUseAxios", error?.response);
-    if (error_message) ShowErrors(error_message);
+    // if (error_message) ShowErrors(error_message);
     return Promise.reject(error);
   } finally {
     setLoading(false);
