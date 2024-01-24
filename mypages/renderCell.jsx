@@ -44,6 +44,8 @@ const GridCategoryCell = memo(function GridProductCell(props) {
 });
 
 export function renderCategoryCell(params, list = []) {
+  console.log("renderCategoryCell", params?.value, list);
+
   return (
     <GridCategoryCell
       value={

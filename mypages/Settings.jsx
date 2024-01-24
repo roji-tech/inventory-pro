@@ -305,9 +305,8 @@ const Settings = () => {
       <link rel="stylesheet" href="./css/demo.css">
       <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap" rel="stylesheet"> */}
 
-              <header className="cd__intro">
+              {/* <header className="cd__intro">
                 <h1>
-                  {" "}
                   Dashboard Profile Page Theme Color CSS Vanilla JS Example{" "}
                 </h1>
                 <p> Dashboard Profile Page Theme Color CSS Vanilla JS </p>
@@ -320,7 +319,7 @@ const Settings = () => {
                     Back to Tutorial
                   </a>
                 </div>
-              </header>
+              </header> */}
 
               <main className="cd__main">
                 <div className="profile-page">

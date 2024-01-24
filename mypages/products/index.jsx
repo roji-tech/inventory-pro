@@ -35,38 +35,7 @@ const Products = () => {
   const router = useRouter();
 
   const categories = ["Drugs", "Spray", "Beverages", "Stationeries"];
-  const defaultData = [
-    {
-      id: "b681f500-2012-45fd-908a-40b0e4c4858f",
-      name: "Sugar",
-      image: null,
-      quantity: 3670,
-    },
-    {
-      id: "30fe9f00-1849-479f-9131-ffdcc19ada1b",
-      name: "Olive Oil",
-      image: null,
-      quantity: 800,
-    },
-    {
-      id: "e12f818b-b4bc-4147-84b8-673fdd6e9548",
-      name: "Pant",
-      image: null,
-      quantity: 100,
-    },
-    {
-      id: "8e1ab08c-224f-4255-a15c-c0f03146c7b1",
-      name: "Knife",
-      image: null,
-      quantity: 20,
-    },
-    {
-      id: "a3e78398-ec7a-429a-bcf6-e8766accdca4",
-      name: "Laptop",
-      image: null,
-      quantity: 876,
-    },
-  ];
+  const defaultData = [];
 
   const [data, setData] = useFetchData(
     defaultData,
@@ -151,11 +120,11 @@ const Products = () => {
       sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),
     },
     {
-      field: "name",
+      field: "category",
       headerName: "CATEGORY",
       width: 150,
       align: "left",
-      renderCell: renderCategoryCell,
+      renderCell: (e) => renderCategoryCell(e, categoriesList?.results),
       editable: true,
       type: "singleSelect",
       valueOptions: categoriesList.results,
