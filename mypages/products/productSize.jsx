@@ -32,6 +32,7 @@ const ProductSize = () => {
   const router = useRouter();
   const { pid } = router.query;
   const [open, setOpen] = useState(false);
+  const [eoq, setEoq] = useState("");
   const [values, setValues] = useState({
     product: "",
     cost_price: 1,
@@ -50,7 +51,7 @@ const ProductSize = () => {
     "get",
     {},
     "Product Sizes",
-    transformProductJsonData
+    transformProductItemData
   );
 
   const [productsList, setProductsList] = useFetchData(
@@ -86,6 +87,23 @@ const ProductSize = () => {
     console.log(event.target.name);
     console.log(event.target.id);
     setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
+    setEoq(typeof productItemList);
+
+    const selectedItem = productItemList?.results?.filter(
+      (item) =>
+        (item.size_category.id == values.size_category) &
+        (item.product.id == values.product)
+    )[0];
+    console.log(selectedItem?.eoq);
+    if (selectedItem) {
+      setValues((prev) => ({ ...prev, barcode: selectedItem?.barcode }));
+
+      if (selectedItem?.eoq) {
+        setEoq(selectedItem?.eoq);
+      } else {
+        setEoq("");
+      }
+    }
   };
 
   const handleProductFilter = (event) => {
@@ -122,7 +140,7 @@ const ProductSize = () => {
           "get",
           {},
           "Product Sizes",
-          transformProductJsonData
+          transformProductItemData
         );
         setProductItemsList(data);
       })
@@ -206,6 +224,13 @@ const ProductSize = () => {
         }
         return `${params.value.toLocaleString()} in Stock`;
       },
+    },
+    {
+      field: "eoq",
+      headerName: "Suggested Restock Quantity",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
     },
   ];
 
@@ -316,6 +341,11 @@ const ProductSize = () => {
               {INPUT_LIST.map((item) => (
                 <FormControl>
                   <InputBox item={item} />
+                  {item?.id == "quantity" && (
+                    <b style={{ font: "16px", color: "goldenrod" }}>
+                      {eoq & !(eoq == "object") ? eoq : ""}
+                    </b>
+                  )}
                 </FormControl>
               ))}
               <Button type="submit">Submit</Button>
@@ -444,8 +474,8 @@ function transformProductData(jsonData) {
   });
 }
 
-function transformProductJsonData(jsonData) {
-  console.log("jsonData", jsonData);
+function transformProductItemData(jsonData) {
+  console.log("transformProductItemData", jsonData);
   return jsonData?.reverse().map((product) => {
     return {
       ...product,
