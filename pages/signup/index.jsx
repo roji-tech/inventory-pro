@@ -143,7 +143,7 @@ export default function SignInSide() {
           if (e.response?.data?.errors?.length < 15) {
             return ShowErrors([...e.response?.data?.errors]);
           }
-          return ShowErrors(e?.response?.data?.detail ?? "An Error Occurred1");
+          return ShowErrors(e?.response?.data?.detail || e.response?.data || "An Error Occurred");
         } catch (error) {
           console.log(error);
           return ShowErrors("An Error Occurred");
